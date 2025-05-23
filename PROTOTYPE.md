@@ -34,7 +34,7 @@ Diagrams can be useful (but will expand this to an extra page if you use them) w
 
 ---
 
-Nice to have features - What you would want to have by the end
+### Nice to have features - What you would want to have by the end
 
 
 1. Wall jumping

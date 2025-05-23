@@ -38,7 +38,22 @@ Diagrams can be useful (but will expand this to an extra page if you use them) w
 
 
 1. Wall jumping
-2. 
+2. **Different types of platforms that have different functions (examples of this below):**
+3. Floating platforms
+4. Moving platforms (i.e. sliders)
+5. Teleporters
+6. Trampolines
+7. Ground holes/caves (think beginning of gen. red lvl 3)
+8. Clouds (functioning as temporary platforms that disappear shortly after you jump on them)
+9. **Different types of enemies/danger that do different things (examples of this below):**
+10. Lava
+11. Spikes
+12. Moving spikes
+13. Moving spears/arrows
+14. "Big Green" (think beginning of gen. red lvl 1)
+15. Rotating maces
+16. "Spikie"s (see gen. red sprites), these are rotating I believe
+17. "Blade"s (see gen. red sprites), not a great name but these things are circular rotating with spikes around circumference
 
 
 ---

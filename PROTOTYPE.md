@@ -29,9 +29,19 @@ Expanded Description:
 
 Diagrams can be useful (but will expand this to an extra page if you use them) when your project isn't EXTREMELY well known (e.g. chess, tetris) but you need to annoatate them to explain what you care about.
 
+
+
+
+---
+
 Nice to have features - What you would want to have by the end
 
 
+1. Wall jumping
+2. 
+
+
+---
 
 
 

@@ -71,7 +71,19 @@ A description of your technical design. This should include:
    
 How you will be using the topics covered in class in the project.
 
+*There will be a class that will contain variables shared by everything in the game (i.e. every single class will extend this class, similar how to every class in Java is a subclass of Object). There will be a player class, a platforms class, a danger class, and an enemies class (more classes may be added later on).*   
 
+**Topics covered in class that will be used in the project:**  
+- Basic (i.e. primitive, and String) types (the usage of these are fairly obvious)
+- Expressions (e.g. math): this will be used to set and change player x and y positions, and scroll x/y positions, among MANY other things
+- Arrays (including ArrayList, LinkedList, etc.): these will be used to store values such as player coordinates (x, y), high scores for different levels, spawn points for platforms/enemies by level, etc.
+- Classes: different types of objects are represented by classes
+- Loops: game loops will be used to control and update positions and other variables during gameplay
+- Conditionals (e.g. if, else statements): used to check collisions (e.g. if (player touching enemy) {player dies}, etc) and a lot of other things
+- Exceptions (try/catch, throw, throws, etc): will be used in earlier stages of game development as a tool to debug processes
+- Recursion: possibly used in gravity/ground-touching scripts
+- Processing: all the graphics will be here, so processing plays a huge role in this project overall
+- Time/space complexity: will be used to make methods as efficient as possible
 
 
      

@@ -11,11 +11,11 @@
 Scrolling platformer game, with multiple levels and various features, such as enemies and collectibles. The player can be controlled with arrow keys (and maybe WASD). Processing will be used for graphics, including the "world", player movement (including gravity), enemy movement, rendering of sprites, etc. Scoring (i will murder my shift keys after writing this) will be based on time (i.e. the less time you take to complete the level, the better). Later/more challenging levels will only be unlocked after the previous levels are completed (however, to ensure that total noobs are able to still play (and fail miserably at) multiple levels, the first three levels will be unlocked at the beginning).
 
 
-
-### Expanded Description:
-
-
 ---
+
+## Expanded Description:
+
+
 
 ### Critical features (Minimum Viable Product) - What you want to have after 1.5 weeks.
 

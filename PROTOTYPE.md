@@ -1,10 +1,10 @@
-# top stuff (will change heading later)
+# Full Prototype:
 
 ### Period: $${\color{blue}3}$$
 
 ### Group members' names: $${\color{blue}Arko \space Chakrabartiroy}$$
 
-#### Group Name (be creative and lean into it!): $${\color{blue}Undecided}$$
+#### Group Name (be creative and lean into it!): $${\color{blue}Platform \space Lords}$$
 
 ### Brief Project description (1 paragraph summary):
 
@@ -29,12 +29,6 @@ Scrolling platformer game, with multiple levels and various features, such as en
 
 ---
 
-Diagrams can be useful (but will expand this to an extra page if you use them) when your project isn't EXTREMELY well known (e.g. chess, tetris) but you need to annoatate them to explain what you care about.
-
-
-
-
----
 
 ### Nice to have features - What you would want to have by the end
 
@@ -62,10 +56,8 @@ Diagrams can be useful (but will expand this to an extra page if you use them) w
 
 
 
-
 # Technical Details:
 
-(CHANGE THIS!!!!!)
 
 A description of your technical design. This should include: 
    
@@ -97,8 +89,9 @@ UML Diagrams and descriptions of key algorithms, classes, and how things fit tog
 # Intended pacing:
 
 How you are breaking down the project and who is responsible for which parts.
+- I'm working solo, so I'm responsible for all parts
 
-A timeline with expected completion dates of parts of the project. (CHANGE THIS!!!!!)
+A timeline with expected completion dates of parts of the project.
 
 - Player, Platforms constructor and draw functions - 05/28
 - Player movement and gravity - 05/29

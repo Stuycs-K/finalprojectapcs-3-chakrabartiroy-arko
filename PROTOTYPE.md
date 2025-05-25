@@ -1,5 +1,7 @@
 # Full Prototype:
 
+---
+
 ### Period: $${\color{blue}3}$$
 
 ### Group members' names: $${\color{blue}Arko \space Chakrabartiroy}$$

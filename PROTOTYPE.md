@@ -4,7 +4,7 @@
 
 ### Group members' names: $${\color{blue}Arko \space Chakrabartiroy}$$
 
-#### Group Name (be creative and lean into it!): $${\color{blue}Platform \space Lords}$$
+#### Group Name (be creative and lean into it!): $${\color{blue}Platformer \space Lords}$$
 
 ### Brief Project description (1 paragraph summary):
 

@@ -78,12 +78,17 @@ How you will be using the topics covered in class in the project.
 - Time/space complexity: will be used to make methods as efficient as possible
 
 
+---
+
      
 # Project Design
 
 UML Diagrams and descriptions of key algorithms, classes, and how things fit together.
 
 ![UML-Image](./UML.png)
+
+
+---
 
     
 # Intended pacing:

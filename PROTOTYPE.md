@@ -79,6 +79,7 @@ How you will be using the topics covered in class in the project.
 
 UML Diagrams and descriptions of key algorithms, classes, and how things fit together.
 
+![UML-Image](./UML.png)
 
     
 # Intended pacing:

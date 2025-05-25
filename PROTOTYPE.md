@@ -100,3 +100,15 @@ How you are breaking down the project and who is responsible for which parts.
 
 A timeline with expected completion dates of parts of the project. (CHANGE THIS!!!!!)
 
+- Player, Platforms constructor and draw functions - 05/28
+- Player movement and gravity - 05/29
+- Platform generation - 05/30
+- Scrolling mechanics - 05/31
+- First level (only player and platforms so far) - 06/01
+- Danger constructor, draw functions - 06/03
+- Danger generation, player death - 06/04
+- Collectibles constructor, draw, generation - 06/05
+- Exit (i.e. portals once level won) - 06/06
+- Background - 06/06
+- Enemies constructor, draw functions, generation - 06/08
+- Additional levels and final touches - 06/10

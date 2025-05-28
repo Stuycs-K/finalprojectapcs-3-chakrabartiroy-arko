@@ -5,7 +5,8 @@ class Thing {
   public float[] highScores;
   public int[] levels;
   public String collectedDisplay, exit;
-  public Thing() {
+  public int xsize, ysize;
+  public Thing(int xlen, int ylen) {
     //
     this.scrollX = 0;
     this.scrollY = 0;
@@ -16,5 +17,14 @@ class Thing {
     this.platformSX = 0;
     this.platformSY = 0;
     this.time = 0.0;
+    this.xsize = xlen;
+    this.ysize = ylen;
+  }
+  // check if two things are touching
+  public boolean touching(Thing obj) {
+    // check if this Thing is touching obj
+    // get all pixels covered by this and object
+    // placeholder:
+    return false;
   }
 }

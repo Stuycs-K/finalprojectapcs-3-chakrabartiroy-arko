@@ -23,5 +23,5 @@ Finally stopped procrastinating on my prototype. Made a UML diagram and added it
 Created three files, Player.pde, Game.pde, and Thing.pde. Somehow managed to import a player image (taken from griffpatch's generic red project on scratch) and have it drawn on the screen.
 
 ### 2025-05-28 - Begun work on touching function
-**In class:** Begun working on a boolean touching() function in Thing.pde to determine if two Things are touching (e.g. if Player is touching a Platform).
+**In class:** Begun working on a boolean touching() function in Thing.pde to determine if two Things are touching (e.g. if Player is touching a Platform).   
 **At home:** Finally decided to log my changes on the devlog (all changes prior to this date were written by me today). 

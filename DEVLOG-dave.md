@@ -25,3 +25,6 @@ Created three files, Player.pde, Game.pde, and Thing.pde. Somehow managed to imp
 ### 2025-05-28 - Begun work on touching function
 **In class:** Begun working on a boolean touching() function in Thing.pde to determine if two Things are touching (e.g. if Player is touching a Platform).   
 **At home:** Finally decided to log my changes on the devlog (all changes prior to this date were written by me today). 
+
+### 2025-05-29 - Finished working on (basic) touching function
+Finished writing a very basic touching function to return true if two rectangular objects are touching. If I have non-rectangular objects, such as spikes, I'll deal with those later.

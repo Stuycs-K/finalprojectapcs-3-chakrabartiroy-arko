@@ -28,3 +28,6 @@ Created three files, Player.pde, Game.pde, and Thing.pde. Somehow managed to imp
 
 ### 2025-05-29 - Finished working on (basic) touching function
 Finished writing a very basic touching function to return true if two rectangular objects are touching. If I have non-rectangular objects, such as spikes, I'll deal with those later.
+
+### 2025-05-30 - Cleaned up joystick sprite in scratch remix of gen. red, added a joystick class in processing code
+Realized that griffpatch's generic red code for simply moving left/right is extremely overcomplicated because of the recording features, joystick, high scores, etc etc etc so I combed through the joystick sprite code on scratch and deleted most of it (about 2% of the original code there remains now) so I can actually understand it (kind of). Added a simple joystick class/file to my processing code, but I haven't implemented the changes for moving left and right because the player sprite's scripts for those are a huge mess too and that mess is less easy to delete stuff from because a lot of it is actually necessary. Also, it looks like I will need to use at least one platform for reference for moving left/right and gravity, so I'm going to have to add the platformer class and initialize one platformer when I resume working on this.

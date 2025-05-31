@@ -6,8 +6,8 @@ class Thing {
   public int[] levels;
   public String collectedDisplay, exit;
   public int xsize, ysize;
-  public int x, y;
-  public Thing(int xlen, int ylen, int xpos, int ypos) {
+  public float x, y;
+  public Thing(int xlen, int ylen, float xpos, float ypos) {
     //
     this.scrollX = 0;
     this.scrollY = 0;
@@ -22,6 +22,7 @@ class Thing {
     this.ysize = ylen;
     this.x = xpos;
     this.y = ypos;
+    this.exit = "";
   }
   // check if two things are touching
   public boolean touching(Thing obj) {

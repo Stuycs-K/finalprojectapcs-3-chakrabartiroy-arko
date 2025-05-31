@@ -1,24 +1,39 @@
 class Player extends Thing {
   // do stuff
-  private int x;
-  private int y;
-  private int sx;
-  private int sy;
+  private float x;
+  private float y;
+  private float sx;
+  private float sy;
   private PImage p;
   private Joystick j;
   private int inAir;
   private Platform[] platforms;
   // just in case
-  private int currentX, currentY;
-  public Player(int xpos, int ypos, int scrollX, int scrollY, Platform[] platformList) {
+  private float currentX, currentY;
+  private boolean impY;
+  // just in case ig?
+  private float impulseX, impulseY;
+  private String exit;
+  // no idea what this is but:
+  private int state;
+  private boolean stateNull;
+  public Player(float xpos, float ypos, int scrollX, int scrollY, Platform[] platformList) {
     //
     super(20, 20, xpos, ypos);
     this.x = xpos;
     this.y = ypos;
     this.currentX = xpos;
     this.currentY = ypos;
-    this.sx = 5; // random init value
+    this.sx = 5.0; // random init value
     this.inAir = 0;
+    // test:
+    this.impY = false;
+    this.impulseX = super.impulseX;
+    this.impulseY = super.impulseY;
+    this.exit = super.exit;
+    // test again:
+    this.state = 0;
+    this.stateNull = true;
     //
     this.platforms = platformList; // this will be a list of all the platform objects in the level, so we can go through this list whenever checking if player is touching platforms
     //
@@ -41,7 +56,6 @@ class Player extends Thing {
     this.x += this.sx; // i think sx is speed x
     // for now, just to make sure this still works:
     this.currentX += this.sx;
-    this.currentY += this.sy;
   }
   public boolean touchingPlatforms() {
     //
@@ -53,10 +67,11 @@ class Player extends Thing {
     }
     return false; // there we go1
   }
-  public void changeY(int cy) {
+  public void changeY(float cy) {
     // copycat version of griffpatch's "change player y by [sy]" function
     // just in case, I'm going to add a parameter to this as well
-    this.y += cy;
+    this.y += cy; // thankfully, cy will still be an int
+    // actually nvm! its a float yayyy
     this.inAir += 1;
     this.position(); // will write this function later but it's pretty simple
     if (this.touchingPlatforms()) {
@@ -88,7 +103,7 @@ class Player extends Thing {
       this.y += out;
       this.position();
     }
-    this.sy = 0;
+    this.sy = 0.0;
     if (out > 0) {
       this.inAir = 0;
     }
@@ -132,7 +147,7 @@ class Player extends Thing {
         this.currentY += 2;
         if (this.touchingPlatforms()) {
           //
-          this.sx = 0;
+          this.sx = 0.0;
         } else {
           // oh nah
           // what the java is this
@@ -141,14 +156,86 @@ class Player extends Thing {
           // in particular, the resulting sign of this.sx is opposite of the original one
           // edit: it might be SLIGHTLY different because there are times when this function is called where the parameter on scratch is NOT sx
           // anyway, continuing...
-          this.sy = 15; // so random but ok
+          this.sy = 15.0; // so random but ok
           this.inAir = 0;
         }
       } else {
         //
-        this.sx = 0;
+        this.sx = 0.0;
       }
     }
-    // FINALLY DONE WITH THIS FUNCTION
+  }
+  // FINALLY DONE WITH THIS FUNCTION
+  // this will probably be the most annoying function of all (at least in this file...) to write:
+  public void Tick() {
+    //
+    if (this.impY) {
+      //
+      this.touchPlatformOut(1);
+    }
+    // new function that I'll write after this...
+    this.handlePlatforms(this.x, this.y);
+    if (!this.exit.equals("")) {
+      // stop(this script)
+      return;
+    }
+    if (this.impY) {
+      // not sure why this condition is repeated but okay
+      this.sx += this.impulseX;
+      this.sy += this.impulseY;
+      // "set IMPULSE Y to [blank]"
+      this.impY = false;
+      this.inAir = 10;
+    } else {
+      //
+      if (this.j.joyY > 0) {
+        //
+        if ((this.inAir > 2) || (this.sy > 8 && this.inAir < 1)) {
+          //
+          this.sy = 15.0;
+        }
+      }
+    }
+    // keep going...
+    this.sy -= 2.0;
+    if (this.sy < -24) {
+      //
+      this.sy = -24.0;
+    }
+    this.changeY(this.sy); // ugh i had to make everything floats because of this
+    this.sx = (this.sx * 0.8) + (super.platformSX * 0.2);
+    if (this.j.joyX < 0) {
+      //
+      this.sx -= 2;
+      this.stateNull = false;
+      this.state = 1;
+    }
+    if (this.j.joyX > 0) {
+      //
+      this.sx += 2;
+      this.stateNull = false;
+      this.state = 1;
+    }
+    // annoying math stuff below:
+    if ((Math.abs(this.sx - super.platformSX)) > 1.5) {
+      //
+      changeX((int) Math.round(this.sx)); // why round now?!?!?
+    } else {
+      //
+      changeX((int) Math.round(super.platformSX));
+    }
+    // the below is checking edge case (i.e. scrolling mechanics stuff)
+    // greater than/less than +- 10 of horizontal length (i.e. width)
+    if (this.x < 10) {
+      //
+      this.x = 10.0;
+    }
+    this.position();
+    this.testDie(); // will write this actual function later, just using a placeholder for now
+  }
+  //
+  public void testDie() {
+    // will actually write this later
+    return;
   }
 }

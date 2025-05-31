@@ -1,4 +1,5 @@
 Player p;
+Platform test14;
 
 void setup() {
   //
@@ -13,12 +14,15 @@ void setup() {
     //
     System.out.println("p is not touching q");
   }
+  // more testing
+  test14 = new Platform("Test14", 40, height/2-20, 448, 218); // original dimensions 448*218
 }
 
 void draw() {
   //
   background(255); // clear the background
   p.draw();
+  test14.draw();
   //System.out.println("draw");
 }
 

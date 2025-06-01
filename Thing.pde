@@ -1,12 +1,13 @@
 class Thing {
   //
-  public int scrollX, scrollY, level, collected, collectedMax, tick, platformSX, platformSY;
+  public int level, collected, collectedMax, tick, platformSX, platformSY;
   public float time, impulseX, impulseY;
   public float[] highScores;
   public int[] levels;
   public String collectedDisplay, exit;
   public int xsize, ysize;
   public float x, y;
+  public float scrollX, scrollY;
   public Thing(int xlen, int ylen, float xpos, float ypos) {
     //
     this.scrollX = 0;
@@ -29,7 +30,7 @@ class Thing {
     // check if this Thing is touching obj
     // get all pixels covered by this and object
     // testing:
-    System.out.println("this.x: " + this.x + "\n this.y: " + this.y + "\n this.xsize: " + this.xsize + "\n this.ysize: " + this.ysize + "\n obj.x: " + obj.x + "\n obj.y: " + obj.y + "\n obj.xsize: " + obj.xsize + "\n obj.ysize: " + obj.ysize);
+    //System.out.println("this.x: " + this.x + "\n this.y: " + this.y + "\n this.xsize: " + this.xsize + "\n this.ysize: " + this.ysize + "\n obj.x: " + obj.x + "\n obj.y: " + obj.y + "\n obj.xsize: " + obj.xsize + "\n obj.ysize: " + obj.ysize);
     // end testing
     if (this.x <= obj.x + obj.xsize && this.x + this.xsize >= obj.x) {
       //

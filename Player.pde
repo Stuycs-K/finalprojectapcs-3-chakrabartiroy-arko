@@ -21,7 +21,11 @@ class Player extends Thing {
   private int distance; // hopefully this stays an int
   // okay i have maybe somewhat of an idea what this could be
   private float angle;
-  public Player(float xpos, float ypos, int scrollX, int scrollY, Platform[] platformList) {
+  private float scrollX;
+  private float scrollY;
+  //
+  private boolean hidden;
+  public Player(float xpos, float ypos, float scrollX, float scrollY, Platform[] platformList) {
     //
     super(20, 20, xpos, ypos);
     this.x = xpos;
@@ -42,6 +46,7 @@ class Player extends Thing {
     this.distance = 0; // ig??? this is very weird but ill keep it like this for now
     //
     this.angle = 0.0; // also weird but for now ig
+    this.hidden = false;
     this.platforms = platformList; // this will be a list of all the platform objects in the level, so we can go through this list whenever checking if player is touching platforms
     //
     PImage img;
@@ -55,8 +60,23 @@ class Player extends Thing {
   // function to move right, this will be changed later but I just want to check/test basic movement functionality in processing
   public void draw() {
     //
-    image(this.p, this.currentX, this.currentY);
-    j.tick();
+    if (!this.hidden) {
+      image(this.p, this.currentX, this.currentY);
+    }
+    j.tick(); // not sure if this should go in the if statement
+  }
+  // get methods
+  public float getX() {
+    return this.x;
+  }
+  public float getY() {
+    return this.y;
+  }
+  public float getScrollX() {
+    return this.scrollX;
+  }
+  public float getScrollY() {
+    return this.scrollY;
   }
   public void right() {
     //
@@ -77,7 +97,7 @@ class Player extends Thing {
   public void changeY(float cy) {
     // copycat version of griffpatch's "change player y by [sy]" function
     // just in case, I'm going to add a parameter to this as well
-    this.y += cy; // thankfully, cy will still be an int
+    this.y -= cy; // thankfully, cy will still be an int
     // actually nvm! its a float yayyy
     this.inAir += 1;
     this.position(); // will write this function later but it's pretty simple
@@ -85,10 +105,10 @@ class Player extends Thing {
       // ezpz
       if (cy > 0) {
         //
-        this.touchPlatformOut(-1); // will also write this function later
+        this.touchPlatformOut(1); // will also write this function later
       } else {
         //
-        this.touchPlatformOut(1);
+        this.touchPlatformOut(-1);
       }
     }
   }
@@ -125,7 +145,7 @@ class Player extends Thing {
       // "repeat 12"
       for (int k = 0; k < 12; k++) {
         //
-        this.y += 1;
+        this.y -= 1;
         this.position();
         if (!this.touchingPlatforms()) {
           // I BELIEVE that the scratch "stop(this script)" function refers to the entire function as the "script" at hand but I'm not 100% sure
@@ -133,7 +153,7 @@ class Player extends Thing {
         }
       }
       // keep going
-      this.y -= 12;
+      this.y += 12;
       // "repeat until (not(touching(platforms)))"
       while (this.touchingPlatforms()) {
         //
@@ -151,7 +171,7 @@ class Player extends Thing {
       if (this.j.joyY > 0 && this.inAir > 6) {
         // "change y by 2", where y is NOT the variable but the built-in scratch y-position
         // this is very annoying to translate to java/processing but I THINK this should mean changing the currentY variable
-        this.currentY += 2;
+        this.currentY -= 2;
         if (this.touchingPlatforms()) {
           //
           this.sx = 0.0;
@@ -163,7 +183,7 @@ class Player extends Thing {
           // in particular, the resulting sign of this.sx is opposite of the original one
           // edit: it might be SLIGHTLY different because there are times when this function is called where the parameter on scratch is NOT sx
           // anyway, continuing...
-          this.sy = 15.0; // so random but ok
+          this.sy = -15.0; // so random but ok
           this.inAir = 0;
         }
       } else {
@@ -174,11 +194,11 @@ class Player extends Thing {
   }
   // FINALLY DONE WITH THIS FUNCTION
   // this will probably be the most annoying function of all (at least in this file...) to write:
-  public void Tick() {
+  public void tick() {
     //
     if (this.impY) {
       //
-      this.touchPlatformOut(1);
+      this.touchPlatformOut(-1);
     }
     // new function that I'll write after this...
     this.handlePlatforms(this.x, this.y);
@@ -189,7 +209,7 @@ class Player extends Thing {
     if (this.impY) {
       // not sure why this condition is repeated but okay
       this.sx += this.impulseX;
-      this.sy += this.impulseY;
+      this.sy -= this.impulseY;
       // "set IMPULSE Y to [blank]"
       this.impY = false;
       this.inAir = 10;
@@ -197,17 +217,17 @@ class Player extends Thing {
       //
       if (this.j.joyY > 0) {
         //
-        if ((this.inAir > 2) || (this.sy > 8 && this.inAir < 1)) {
+        if ((this.inAir > 2) || (this.sy < -8 && this.inAir < 1)) {
           //
-          this.sy = 15.0;
+          this.sy = -15.0;
         }
       }
     }
     // keep going...
-    this.sy -= 2.0;
-    if (this.sy < -24) {
+    this.sy += 2.0;
+    if (this.sy > 24) {
       //
-      this.sy = -24.0;
+      this.sy = 24.0;
     }
     this.changeY(this.sy); // ugh i had to make everything floats because of this
     this.sx = (this.sx * 0.8) + (super.platformSX * 0.2);
@@ -243,7 +263,7 @@ class Player extends Thing {
   // handle platforms function
   public void handlePlatforms(float xval, float yval) {
     //
-    this.y += super.platformSY;
+    this.y -= super.platformSY;
     this.position();
     if (this.touchingPlatforms()) {
       // the rest of the function will be here
@@ -256,7 +276,7 @@ class Player extends Thing {
         for (int j = 0; j < 8; j++) {
           // math again...
           this.x = Math.round(xval + (this.distance * Math.sin(Math.toRadians(this.angle)))); // this is a nightmare
-          this.y = Math.round(xval + (this.distance * Math.cos(Math.toRadians(this.angle)))); // this is a nightmare
+          this.y = Math.round(yval - (this.distance * Math.cos(Math.toRadians(this.angle)))); // this is a nightmare
           // one question about the above though: doesn't x usually correspond to cos and y to sin?
           this.position();
           if (!this.touchingPlatforms()) {
@@ -273,6 +293,82 @@ class Player extends Thing {
       this.exit = "die"; // no idea why but ok
     }
   }
+  // game on function, mainly initializing variables and stuff
+  public void gameOn() {
+    //
+    this.x = width/2-10;
+    this.y = height/2-10; // these are the starting positions, placeholders for now
+    this.scrollX = this.x;
+    this.scrollY = this.y;
+    this.sx = 0;
+    this.sy = 0;
+    this.inAir = 0;
+    this.exit = "";
+    this.impY = false;
+  }
+  // scroll stage function, related to scrolling mechanics ig...
+  public void scrollStage() {
+    //
+    this.scrollX = this.x;
+    if (this.scrollX > 0) {
+      //
+      this.scrollX = 0;
+    }
+    this.scrollX += Math.round((this.y - this.scrollY) / 10);
+    if (this.y - this.scrollY > 100) {
+      // i think these are bounds?
+      this.scrollY = this.y - 100;
+    }
+    if (this.scrollY > 0) {
+      //
+      this.scrollY = 0;
+    }
+    this.position();
+    if (this.y > height) {
+      //
+      this.exit = "die";
+    }
+  }
+  // game die
+  public void gameDie() {
+    //
+    this.exit = "";
+    // repeat 5
+    for (int i = 0; i < 5; i++) {
+      // hide
+      this.hidden = true;
+      // wait 0.1 seconds
+      try {
+        Thread.sleep(100); // Pause the thread for 100 milliseconds (0.1 seconds)
+      } catch (InterruptedException e) {
+        // Handle the exception if the thread is interrupted while sleeping
+        Thread.currentThread().interrupt();
+        return;
+      }
+      // show
+      this.hidden = false;
+      // wait 0.1 seconds
+      try {
+        Thread.sleep(100); // Pause the thread for 100 milliseconds (0.1 seconds)
+      } catch (InterruptedException e) {
+        // Handle the exception if the thread is interrupted while sleeping
+        Thread.currentThread().interrupt();
+        return;
+      }
+      //
+    }
+    // hide
+    this.hidden = true;
+    // wait 0.5 seconds
+    try {
+      Thread.sleep(500); // Pause the thread for 500 milliseconds (0.5 seconds)
+    } catch (InterruptedException e) {
+      // Handle the exception if the thread is interrupted while sleeping
+      Thread.currentThread().interrupt();
+      return;
+    }
+  }
+  // I'll do the game win function later because that involves the exit sprite
   //
   public void testDie() {
     // will actually write this later

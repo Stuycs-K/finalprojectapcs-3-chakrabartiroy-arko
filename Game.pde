@@ -1,14 +1,14 @@
 Player p;
-Platform test14;
+Platform test22;
 Platform[] platforms;
 
 void setup() {
   //
   size(800, 500); // 800 is the length (horizontal), 500 is the height (vertical)
   // more testing
-  test14 = new Platform("Test14", 40, height/2-20, 448, 218); // original dimensions 448*218
+  test22 = new Platform("Test22", 40, height/2+150, 538, 91); // original dimensions 269*91
   // IMPORTANT: INITIALIZE PLATFORMS BEFORE PLAYER!
-  platforms = new Platform[] {test14};
+  platforms = new Platform[] {test22};
   p = new Player(width/2-10, height/2-10, 0, 0, platforms);
   // testing purposes, check if two things are touching
   //Player q = new Player(width/2+10, height/2+10, 0, 0);
@@ -34,7 +34,7 @@ void draw() {
   p.tick();
   //println("Iteration " + i);
   i++;
-  test14.draw();
+  test22.draw();
   
   // testing:
   

@@ -17,6 +17,10 @@ class Player extends Thing {
   // no idea what this is but:
   private int state;
   private boolean stateNull;
+  // again, no idea what this is for but:
+  private int distance; // hopefully this stays an int
+  // okay i have maybe somewhat of an idea what this could be
+  private float angle;
   public Player(float xpos, float ypos, int scrollX, int scrollY, Platform[] platformList) {
     //
     super(20, 20, xpos, ypos);
@@ -34,7 +38,10 @@ class Player extends Thing {
     // test again:
     this.state = 0;
     this.stateNull = true;
+    // test yet again:
+    this.distance = 0; // ig??? this is very weird but ill keep it like this for now
     //
+    this.angle = 0.0; // also weird but for now ig
     this.platforms = platformList; // this will be a list of all the platform objects in the level, so we can go through this list whenever checking if player is touching platforms
     //
     PImage img;
@@ -232,6 +239,39 @@ class Player extends Thing {
     }
     this.position();
     this.testDie(); // will write this actual function later, just using a placeholder for now
+  }
+  // handle platforms function
+  public void handlePlatforms(float xval, float yval) {
+    //
+    this.y += super.platformSY;
+    this.position();
+    if (this.touchingPlatforms()) {
+      // the rest of the function will be here
+      this.distance = 1;
+      // repeat 8...
+      for (int i = 0; i < 8; i++) {
+        //
+        this.angle = 0;
+        // repeat 8 again
+        for (int j = 0; j < 8; j++) {
+          // math again...
+          this.x = Math.round(xval + (this.distance * Math.sin(Math.toRadians(this.angle)))); // this is a nightmare
+          this.y = Math.round(xval + (this.distance * Math.cos(Math.toRadians(this.angle)))); // this is a nightmare
+          // one question about the above though: doesn't x usually correspond to cos and y to sin?
+          this.position();
+          if (!this.touchingPlatforms()) {
+            // stop this script -> return
+            return;
+          }
+          this.angle += 45;
+        }
+        this.distance += 1;
+      }
+      this.x = xval;
+      this.y = yval;
+      this.position();
+      this.exit = "die"; // no idea why but ok
+    }
   }
   //
   public void testDie() {

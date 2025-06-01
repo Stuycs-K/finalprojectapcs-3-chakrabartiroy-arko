@@ -97,18 +97,24 @@ class Player extends Thing {
   public void changeY(float cy) {
     // copycat version of griffpatch's "change player y by [sy]" function
     // just in case, I'm going to add a parameter to this as well
+    //println("reached changeY function from tick, line 100");
     this.y -= cy; // thankfully, cy will still be an int
     // actually nvm! its a float yayyy
     this.inAir += 1;
     this.position(); // will write this function later but it's pretty simple
+    //println("changeY from tick, line 105");
     if (this.touchingPlatforms()) {
+      //println("changeY from tick, touchingPlatforms true");
       // ezpz
       if (cy > 0) {
         //
+        //println("cy > 0");
         this.touchPlatformOut(1); // will also write this function later
       } else {
         //
+        //println("cy < 0");
         this.touchPlatformOut(-1);
+        //println("reached end");
       }
     }
   }
@@ -123,9 +129,10 @@ class Player extends Thing {
     //
     this.y += out;
     this.position();
+    //println("reached 132");
     // repeat until -> while not [condition]
     // repeat until (not touching platforms) becomes: while (touching platforms)
-    while (this.touchingPlatforms()) {
+    if (this.touchingPlatforms()) {
       // I think this script is to move out of any platforms that player is touching
       this.y += out;
       this.position();
@@ -155,7 +162,7 @@ class Player extends Thing {
       // keep going
       this.y += 12;
       // "repeat until (not(touching(platforms)))"
-      while (this.touchingPlatforms()) {
+      if (this.touchingPlatforms()) {
         //
         if (cx > 0) {
           //
@@ -198,16 +205,20 @@ class Player extends Thing {
     //
     if (this.impY) {
       //
+      //println("impY is true, line 201");
       this.touchPlatformOut(-1);
     }
     // new function that I'll write after this...
     this.handlePlatforms(this.x, this.y);
     if (!this.exit.equals("")) {
       // stop(this script)
+      // println("Exit: " + this.exit);
       return;
     }
+    //println("tick - reached line 211");
     if (this.impY) {
       // not sure why this condition is repeated but okay
+      //println("impY is true, line 213");
       this.sx += this.impulseX;
       this.sy -= this.impulseY;
       // "set IMPULSE Y to [blank]"
@@ -215,22 +226,27 @@ class Player extends Thing {
       this.inAir = 10;
     } else {
       //
+      //println("impY is false, line 221");
       if (this.j.joyY > 0) {
         //
-        if ((this.inAir > 2) || (this.sy < -8 && this.inAir < 1)) {
+        if ((this.inAir > 2) || (this.sy > 8 && this.inAir < 1)) {
           //
-          this.sy = -15.0;
+          this.sy = 15.0;
         }
       }
     }
+    //println("tick - reached line 231");
     // keep going...
-    this.sy += 2.0;
-    if (this.sy > 24) {
+    this.sy -= 2.0;
+    if (this.sy < -24) {
       //
-      this.sy = 24.0;
+      this.sy = -24.0;
     }
+    //println("tick - reached line 238");
     this.changeY(this.sy); // ugh i had to make everything floats because of this
+    //println("tick - reached line 240");
     this.sx = (this.sx * 0.8) + (super.platformSX * 0.2);
+    //println("tick - reached line 242");
     if (this.j.joyX < 0) {
       //
       this.sx -= 2;
@@ -243,9 +259,11 @@ class Player extends Thing {
       this.stateNull = false;
       this.state = 1;
     }
+    //println("tick - reached line 262");
     // annoying math stuff below:
     if ((Math.abs(this.sx - super.platformSX)) > 1.5) {
       //
+      //println("266");
       changeX((int) Math.round(this.sx)); // why round now?!?!?
     } else {
       //
@@ -257,6 +275,7 @@ class Player extends Thing {
       //
       this.x = 10.0;
     }
+    //println("tick - reached line 277");
     this.position();
     this.testDie(); // will write this actual function later, just using a placeholder for now
   }
@@ -290,7 +309,7 @@ class Player extends Thing {
       this.x = xval;
       this.y = yval;
       this.position();
-      this.exit = "die"; // no idea why but ok
+      //this.exit = "die"; // no idea why but ok
     }
   }
   // game on function, mainly initializing variables and stuff
@@ -333,40 +352,6 @@ class Player extends Thing {
   public void gameDie() {
     //
     this.exit = "";
-    // repeat 5
-    for (int i = 0; i < 5; i++) {
-      // hide
-      this.hidden = true;
-      // wait 0.1 seconds
-      try {
-        Thread.sleep(100); // Pause the thread for 100 milliseconds (0.1 seconds)
-      } catch (InterruptedException e) {
-        // Handle the exception if the thread is interrupted while sleeping
-        Thread.currentThread().interrupt();
-        return;
-      }
-      // show
-      this.hidden = false;
-      // wait 0.1 seconds
-      try {
-        Thread.sleep(100); // Pause the thread for 100 milliseconds (0.1 seconds)
-      } catch (InterruptedException e) {
-        // Handle the exception if the thread is interrupted while sleeping
-        Thread.currentThread().interrupt();
-        return;
-      }
-      //
-    }
-    // hide
-    this.hidden = true;
-    // wait 0.5 seconds
-    try {
-      Thread.sleep(500); // Pause the thread for 500 milliseconds (0.5 seconds)
-    } catch (InterruptedException e) {
-      // Handle the exception if the thread is interrupted while sleeping
-      Thread.currentThread().interrupt();
-      return;
-    }
   }
   // I'll do the game win function later because that involves the exit sprite
   //

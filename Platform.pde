@@ -37,4 +37,7 @@ class Platform extends Thing {
     //
     return this.y;
   }
+  public void tick() {
+    //
+  }
 }

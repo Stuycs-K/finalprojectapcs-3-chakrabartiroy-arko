@@ -1,6 +1,7 @@
 Player p;
 Platform test22;
 Platform[] platforms;
+boolean gameRunning;
 
 void setup() {
   //
@@ -10,6 +11,7 @@ void setup() {
   // IMPORTANT: INITIALIZE PLATFORMS BEFORE PLAYER!
   platforms = new Platform[] {test22};
   p = new Player(width/2-10, height/2-10, 0, 0, platforms);
+  gameRunning = true;
   // testing purposes, check if two things are touching
   //Player q = new Player(width/2+10, height/2+10, 0, 0);
   //if (p.touching(q)) {
@@ -21,7 +23,7 @@ void setup() {
   //}
 }
 
-int i = 0;
+
 
 void draw() {
   //
@@ -35,13 +37,13 @@ void draw() {
     p.draw();
     //p.tick();
     //println("Iteration " + i);
-    i++;
     test22.draw();
+    for (int i = 0; i < platforms.length; i++) {
+      // do stuff to each of the platforms
+      platforms[i].tick();
+    }
+    println("Called draw");
   }
-  
-  // testing:
-  
-  //System.out.println("draw");
 }
 
 

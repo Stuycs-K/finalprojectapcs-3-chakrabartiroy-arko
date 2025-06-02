@@ -26,16 +26,19 @@ class Thing {
     this.exit = "";
   }
   // check if two things are touching
-  public boolean touching(Thing obj) {
+  public boolean touching(Thing obj, float xpos, float ypos, float objx, float objy) {
     // check if this Thing is touching obj
     // get all pixels covered by this and object
     // testing:
-    //System.out.println("this.x: " + this.x + "\n this.y: " + this.y + "\n this.xsize: " + this.xsize + "\n this.ysize: " + this.ysize + "\n obj.x: " + obj.x + "\n obj.y: " + obj.y + "\n obj.xsize: " + obj.xsize + "\n obj.ysize: " + obj.ysize);
+    //System.out.println("this.x: " + xpos + "\n this.y: " + ypos + "\n this.xsize: " + this.xsize + "\n this.ysize: " + this.ysize + "\n obj.x: " + obj.x + "\n obj.y: " + obj.y + "\n obj.xsize: " + obj.xsize + "\n obj.ysize: " + obj.ysize);
     // end testing
-    if (this.x <= obj.x + obj.xsize && this.x + this.xsize >= obj.x) {
+    //println("reached super touching function");
+    if (xpos <= obj.x + obj.xsize && xpos + this.xsize >= obj.x) {
       //
-      if (this.y <= obj.y + obj.ysize && this.y + this.ysize >= obj.y) {
+      //println("x condition in super touching function is true");
+      if (ypos <= obj.y + obj.ysize && ypos + this.ysize >= obj.y) {
         // touching!
+        println("y condition in super touching function is true");
         return true;
       }
     }

@@ -9,6 +9,8 @@ public class Joystick {
   }
   public void tick() {
     //
+    this.joyX = 0;
+    this.joyY = 0;
     if (keyPressed) {
       //
       if (keyCode == UP) {

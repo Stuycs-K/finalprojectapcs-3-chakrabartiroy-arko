@@ -88,7 +88,8 @@ class Player extends Thing {
     //
     for (int i = 0; i < this.platforms.length; i++) {
       //
-      if (super.touching(this.platforms[i])) {
+      if (super.touching(this.platforms[i], this.x, this.y, this.platforms[i].getX(), this.platforms[i].getY())) {
+        //println("Touching platforms");
         return true;
       }
     }
@@ -104,7 +105,7 @@ class Player extends Thing {
     this.position(); // will write this function later but it's pretty simple
     //println("changeY from tick, line 105");
     if (this.touchingPlatforms()) {
-      //println("changeY from tick, touchingPlatforms true");
+      println("changeY from tick, touchingPlatforms true");
       // ezpz
       if (cy > 0) {
         //
@@ -127,14 +128,15 @@ class Player extends Thing {
   // on scratch, this function is called "Touching Platform: out [out]".
   public void touchPlatformOut(int out) {
     //
-    this.y += out;
+    this.y -= out;
     this.position();
     //println("reached 132");
     // repeat until -> while not [condition]
     // repeat until (not touching platforms) becomes: while (touching platforms)
     if (this.touchingPlatforms()) {
       // I think this script is to move out of any platforms that player is touching
-      this.y += out;
+      println("Touching platforms true, from touchPlatformOut function");
+      this.y -= out;
       this.position();
     }
     this.sy = 0.0;

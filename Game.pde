@@ -25,16 +25,19 @@ int i = 0;
 
 void draw() {
   //
-  background(255); // clear the background
-  textSize(16);
-  text("Player x: " + p.getX(), width-200, 64);
-  text("Player y: " + p.getY(), width-200, 96);
-  //p.gameOn();
-  p.draw();
-  p.tick();
-  //println("Iteration " + i);
-  i++;
-  test22.draw();
+  if (frameCount % 20 == 0) {
+    // testing
+    background(255); // clear the background
+    textSize(16);
+    text("Player x: " + p.getX(), width-200, 64);
+    text("Player y: " + p.getY(), width-200, 96);
+    //p.gameOn();
+    p.draw();
+    p.tick();
+    //println("Iteration " + i);
+    i++;
+    test22.draw();
+  }
   
   // testing:
   

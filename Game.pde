@@ -33,7 +33,7 @@ void draw() {
     text("Player y: " + p.getY(), width-200, 96);
     //p.gameOn();
     p.draw();
-    p.tick();
+    //p.tick();
     //println("Iteration " + i);
     i++;
     test22.draw();

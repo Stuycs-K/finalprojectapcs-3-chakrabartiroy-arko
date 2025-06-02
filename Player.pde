@@ -110,6 +110,9 @@ class Player extends Thing {
     this.exit = "";
     this.impY = false;
   }
+  public void tick() {
+    // tick function!
+  }
   // game die
   public void gameDie() {
     //

@@ -27,7 +27,7 @@ void setup() {
 
 void draw() {
   //
-  if (frameCount % 20 == 0) {
+  if (frameCount % 1 == 0) {
     // testing
     background(255); // clear the background
     textSize(16);
@@ -35,7 +35,7 @@ void draw() {
     text("Player y: " + p.getY(), width-200, 96);
     //p.gameOn();
     p.draw();
-    //p.tick();
+    p.tick();
     //println("Iteration " + i);
     test22.draw();
     for (int i = 0; i < platforms.length; i++) {

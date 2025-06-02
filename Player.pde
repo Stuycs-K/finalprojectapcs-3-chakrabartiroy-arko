@@ -10,9 +10,7 @@ class Player extends Thing {
   private Platform[] platforms;
   // just in case
   private float currentX, currentY;
-  private boolean impY;
   // just in case ig?
-  private float impulseX, impulseY;
   private String exit;
   private int state;
   private boolean stateNull;
@@ -32,9 +30,6 @@ class Player extends Thing {
     this.sx = 5.0; // random init value
     this.inAir = 0;
     // test:
-    this.impY = false;
-    this.impulseX = super.impulseX;
-    this.impulseY = super.impulseY;
     this.exit = super.exit;
     // test again:
     this.state = 0;
@@ -57,9 +52,7 @@ class Player extends Thing {
   // function to move right, this will be changed later but I just want to check/test basic movement functionality in processing
   public void draw() {
     //
-    if (!this.hidden) {
-      image(this.p, this.currentX, this.currentY);
-    }
+    image(this.p, this.x, this.y);
     j.tick(); // not sure if this should go in the if statement
   }
   // get methods
@@ -108,10 +101,14 @@ class Player extends Thing {
     this.sy = 0;
     this.inAir = 0;
     this.exit = "";
-    this.impY = false;
   }
   public void tick() {
     // tick function!
+    if (!this.touchingPlatforms()) {
+      //
+      println("not touching platforms");
+      this.y += 1; // processing is wacky
+    }
   }
   // game die
   public void gameDie() {

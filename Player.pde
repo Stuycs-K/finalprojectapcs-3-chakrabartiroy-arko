@@ -28,6 +28,7 @@ class Player extends Thing {
     this.currentX = xpos;
     this.currentY = ypos;
     this.sx = 5.0; // random init value
+    this.sy = 0;
     this.inAir = 0;
     // test:
     this.exit = super.exit;
@@ -84,6 +85,17 @@ class Player extends Thing {
     }
     return false; // there we go1
   }
+  public boolean borderingPlatforms() {
+    //
+    for (int i = 0; i < this.platforms.length; i++) {
+      //
+      if (super.bordering(this.platforms[i], this.x, this.y, this.platforms[i].getX(), this.platforms[i].getY())) {
+        //println("Touching platforms");
+        return true;
+      }
+    }
+    return false; // there we go1
+  }
   // position function:
   public void position() {
     // there is a big difference between saying "this.x -= this.scrollX" and having a new variable equal this value because the first one actually changes the value of this.x, which we don't want to do.
@@ -104,10 +116,25 @@ class Player extends Thing {
   }
   public void tick() {
     // tick function!
-    if (!this.touchingPlatforms()) {
+    //if (!this.touchingPlatforms()) {
+    //  //
+    //  println("not touching platforms");
+    //  this.y += sy; // processing is wacky
+    //  this.sy += 0.3; //
+    //} else {
+    //  //
+    //  while (this.touchingPlatforms() && !this.borderingPlatforms()) {
+    //    // move back up/out of the platforms
+    //    this.y -= 0.3;
+    //  }
+    //  this.sy = 0;
+    //}
+    for (int i = 0; i < 15; i++) {
       //
-      println("not touching platforms");
-      this.y += 1; // processing is wacky
+      if (!this.touchingPlatforms()) {
+        //
+        this.y += 1;
+      }
     }
   }
   // game die

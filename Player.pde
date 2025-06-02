@@ -71,8 +71,25 @@ class Player extends Thing {
   }
   public void right() {
     //
-    this.x += this.sx;
-    this.currentX += this.sx;
+    //for (int i = 0; i < this.sx*10; i++) {
+    //  //
+    //  this.x += 0.1;
+    //  this.currentX += 0.1;
+    //}
+    this.x += sx;
+  }
+  public void left() {
+    //
+    for (int i = 0; i < this.sx; i++) {
+      //
+      this.x -= 1;
+      this.currentX -= 1;
+    }
+  }
+  public void center() {
+    // dev function
+    this.x = width/2-10;
+    this.y = height/2-10;
   }
   public boolean touchingPlatforms() {
     //
@@ -129,7 +146,7 @@ class Player extends Thing {
     //  }
     //  this.sy = 0;
     //}
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 12; i++) {
       //
       if (!this.touchingPlatforms()) {
         //

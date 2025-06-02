@@ -27,23 +27,21 @@ void setup() {
 
 void draw() {
   //
-  if (frameCount % 1 == 0) {
-    // testing
-    background(255); // clear the background
-    textSize(16);
-    text("Player x: " + p.getX(), width-200, 64);
-    text("Player y: " + p.getY(), width-200, 96);
-    //p.gameOn();
-    p.draw();
-    p.tick();
-    //println("Iteration " + i);
-    test22.draw();
-    for (int i = 0; i < platforms.length; i++) {
-      // do stuff to each of the platforms
-      platforms[i].tick();
-    }
-    println("Called draw");
+  // testing
+  background(255); // clear the background
+  textSize(16);
+  text("Player x: " + p.getX(), width-200, 64);
+  text("Player y: " + p.getY(), width-200, 96);
+  //p.gameOn();
+  p.draw();
+  p.tick();
+  //println("Iteration " + i);
+  test22.draw();
+  for (int i = 0; i < platforms.length; i++) {
+    // do stuff to each of the platforms
+    platforms[i].tick();
   }
+  println("Called draw");
 }
 
 
@@ -52,9 +50,15 @@ void draw() {
 void keyPressed() {
   //
   //println(keyCode);
-  //if (keyCode == RIGHT) {
-  //  //
-  //  //System.out.println("Right");
-  //  p.right();
-  //}
+  if (keyCode == RIGHT) {
+    //
+    //System.out.println("Right");
+    p.right();
+  }
+  if (keyCode == LEFT) {
+    p.left();
+  }
+  if (key == ' ') {
+    p.center();
+  }
 }

@@ -52,14 +52,14 @@ void draw() {
 void keyPressed() {
   //
   //println(keyCode);
-  if (keyCode == RIGHT) {
-    //
-    //System.out.println("Right");
-    p.right();
-  }
-  if (keyCode == LEFT) {
-    p.left();
-  }
+  //if (keyCode == RIGHT) {
+  //  //
+  //  //System.out.println("Right");
+  //  p.right();
+  //}
+  //if (keyCode == LEFT) {
+  //  p.left();
+  //}
   if (key == ' ') {
     p.center();
   }

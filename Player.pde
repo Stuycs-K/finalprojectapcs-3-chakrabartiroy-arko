@@ -18,6 +18,7 @@ class Player extends Thing {
   private float angle;
   private float scrollX;
   private float scrollY;
+  private boolean keyPress;
   //
   private boolean hidden;
   public Player(float xpos, float ypos, float scrollX, float scrollY, Platform[] platformList) {
@@ -40,6 +41,7 @@ class Player extends Thing {
     //
     this.angle = 0.0;
     this.hidden = false;
+    this.keyPress = false;
     this.platforms = platformList; // this will be a list of all the platform objects in the level, so we can go through this list whenever checking if player is touching platforms
     //
     PImage img;
@@ -71,12 +73,12 @@ class Player extends Thing {
   }
   public void right() {
     //
-    //for (int i = 0; i < this.sx*10; i++) {
-    //  //
-    //  this.x += 0.1;
-    //  this.currentX += 0.1;
-    //}
-    this.x += sx;
+    for (int i = 0; i < this.sx*10; i++) {
+      //
+      this.x += 0.1;
+      this.currentX += 0.1;
+    }
+    //this.x += sx;
   }
   public void left() {
     //
@@ -145,6 +147,12 @@ class Player extends Thing {
         this.y -= 0.3;
       }
       this.sy = 0;
+    }
+    if (keyCode == RIGHT) {
+      this.right();
+    }
+    if (keyCode == LEFT) {
+      this.left();
     }
     //for (int i = 0; i < 12; i++) {
     //  //

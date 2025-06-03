@@ -19,6 +19,7 @@ class Player extends Thing {
   private float scrollX;
   private float scrollY;
   private boolean keyPress;
+  private int jumpCounter;
   //
   private boolean hidden;
   public Player(float xpos, float ypos, float scrollX, float scrollY, Platform[] platformList) {
@@ -42,6 +43,7 @@ class Player extends Thing {
     this.angle = 0.0;
     this.hidden = false;
     this.keyPress = false;
+    this.jumpCounter = 0;
     this.platforms = platformList; // this will be a list of all the platform objects in the level, so we can go through this list whenever checking if player is touching platforms
     //
     PImage img;
@@ -135,24 +137,33 @@ class Player extends Thing {
   }
   public void tick() {
     // tick function!
-    if (!this.touchingPlatforms()) {
+    if (jumpCounter > 0) {
       //
-      //println("not touching platforms");
-      this.y += sy; // processing is wacky
-      this.sy += 0.3; //
+      this.y -= 2*jumpCounter;
+      this.jumpCounter -= 1;
     } else {
-      //
-      while (this.touchingPlatforms() && !this.borderingPlatforms()) {
-        // move back up/out of the platforms
-        this.y -= 0.3;
-      }
-      this.sy = 0;
+      for (float i = 0; i < sy; i+= 0.3) {
+        if (!this.touchingPlatforms()) {
+          //
+          //println("not touching platforms");
+          this.y += 0.3; // processing is wacky
+          //this.sy += 0.3; //
+        } else {
+          this.sy = 0;
+        }
     }
-    if (keyCode == RIGHT) {
+    }
+    this.sy += 0.3;
+    //this.sy = 0;
+    if (keyPressed && keyCode == RIGHT) {
       this.right();
     }
-    if (keyCode == LEFT) {
+    if (keyPressed && keyCode == LEFT) {
       this.left();
+    }
+    if (keyPressed && keyCode == UP && this.borderingPlatforms()) {
+      //
+      this.jumpCounter = 10;
     }
     //for (int i = 0; i < 12; i++) {
     //  //
@@ -163,6 +174,14 @@ class Player extends Thing {
     //}
     //if (!this.touchingPlatforms()) {
     //  this.y += 12;
+    //}
+    //else {
+    //  //
+    //  while (this.touchingPlatforms() && !this.borderingPlatforms()) {
+    //    // move back up/out of the platforms
+    //    this.y -= 0.3;
+    //  }
+    //  this.sy = 0;
     //}
   }
   // game die

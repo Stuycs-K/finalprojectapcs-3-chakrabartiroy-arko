@@ -59,17 +59,17 @@ class Thing {
     //println("this.xsize: " + this.xsize + "\n this.ysize: " + this.ysize);
     if (xpos == objx + obj.xsize || xpos + this.xsize == objx) {
       //
-      println("x condition in super bordering function is true");
+      //println("x condition in super bordering function is true");
       if (ypos == objy + obj.ysize || ypos + this.ysize == objy) {
         // touching!
-        println("y condition in super bordering function is true");
+        //println("y condition in super bordering function is true");
         return true;
       }
     }
     // testing
     if ((xpos == objx + obj.xsize || xpos + this.xsize == objx) && (ypos <= objy + obj.ysize && ypos + this.ysize >= objy)) {
       //
-      println("second x= condition in super bordering function is true");
+      //println("second x= condition in super bordering function is true");
       return true;
     }
     if ((ypos == objy + obj.ysize || ypos + this.ysize == objy) && (xpos <= objx + obj.xsize && xpos + this.xsize >= objx)) {

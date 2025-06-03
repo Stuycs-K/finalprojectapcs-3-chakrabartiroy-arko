@@ -8,9 +8,11 @@ void setup() {
   size(800, 500); // 800 is the length (horizontal), 500 is the height (vertical)
   // more testing
   test22 = new Platform("Test22", 40, height/2+150, 538, 91); // original dimensions 269*91
+  // x = 40, y = 400
   // IMPORTANT: INITIALIZE PLATFORMS BEFORE PLAYER!
   platforms = new Platform[] {test22};
   p = new Player(width/2-10, height/2-10, 0, 0, platforms);
+  // x = 390, y = 240
   gameRunning = true;
   // testing purposes, check if two things are touching
   //Player q = new Player(width/2+10, height/2+10, 0, 0);
@@ -41,7 +43,7 @@ void draw() {
     // do stuff to each of the platforms
     platforms[i].tick();
   }
-  println("Called draw");
+  //println("Called draw");
 }
 
 

@@ -106,7 +106,7 @@ class Player extends Thing {
     //
     for (int i = 0; i < this.platforms.length; i++) {
       //
-      if (super.bordering(this.platforms[i], this.x, this.y, this.platforms[i].getX(), this.platforms[i].getY())) {
+      if (super.bordering(this.platforms[i], (int) this.x, (int) this.y, (int) this.platforms[i].getX(), (int) this.platforms[i].getY())) {
         //println("Touching platforms");
         return true;
       }
@@ -133,26 +133,29 @@ class Player extends Thing {
   }
   public void tick() {
     // tick function!
-    //if (!this.touchingPlatforms()) {
-    //  //
-    //  println("not touching platforms");
-    //  this.y += sy; // processing is wacky
-    //  this.sy += 0.3; //
-    //} else {
-    //  //
-    //  while (this.touchingPlatforms() && !this.borderingPlatforms()) {
-    //    // move back up/out of the platforms
-    //    this.y -= 0.3;
-    //  }
-    //  this.sy = 0;
-    //}
-    for (int i = 0; i < 12; i++) {
+    if (!this.touchingPlatforms()) {
       //
-      if (!this.touchingPlatforms()) {
-        //
-        this.y += 1;
+      //println("not touching platforms");
+      this.y += sy; // processing is wacky
+      this.sy += 0.3; //
+    } else {
+      //
+      while (this.touchingPlatforms() && !this.borderingPlatforms()) {
+        // move back up/out of the platforms
+        this.y -= 0.3;
       }
+      this.sy = 0;
     }
+    //for (int i = 0; i < 12; i++) {
+    //  //
+    //  if (!this.touchingPlatforms()) {
+    //    //
+    //    this.y += 1;
+    //  }
+    //}
+    //if (!this.touchingPlatforms()) {
+    //  this.y += 12;
+    //}
   }
   // game die
   public void gameDie() {

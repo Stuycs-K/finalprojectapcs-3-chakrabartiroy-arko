@@ -23,6 +23,7 @@ class Player extends Thing {
   // for handling multiple keypresses at the same time:
   public boolean[] keys; // THIS IS PUBLIC
   private boolean doubleJump;
+  public boolean hasMoved;
   //
   private boolean hidden;
   public Player(float xpos, float ypos, float scrollX, float scrollY, Platform[] platformList) {
@@ -52,6 +53,9 @@ class Player extends Thing {
       this.keys[i] = false;
     }
     this.doubleJump = false;
+    this.scrollX = scrollX;
+    this.scrollY = scrollY;
+    this.hasMoved = false;
     this.platforms = platformList; // this will be a list of all the platform objects in the level, so we can go through this list whenever checking if player is touching platforms
     //
     PImage img;
@@ -87,6 +91,7 @@ class Player extends Thing {
       //
       this.x += 0.1;
       this.currentX += 0.1;
+      this.scrollX += 0.1;
     }
     //this.x += sx;
   }
@@ -96,12 +101,15 @@ class Player extends Thing {
       //
       this.x -= 1;
       this.currentX -= 1;
+      this.scrollX -= 1;
     }
   }
   public void center() {
     // dev function
     this.x = width/2-10;
     this.y = height/2-10;
+    this.scrollX = 0;
+    this.scrollY = 0;
   }
   public boolean touchingPlatforms() {
     //
@@ -145,6 +153,9 @@ class Player extends Thing {
   }
   public void tick() {
     // tick function!
+    this.x = this.currentX;
+    this.y = this.currentY;
+    this.hasMoved = false;
     if (this.touchingPlatforms()) {
       //
       this.doubleJump = false;
@@ -153,9 +164,11 @@ class Player extends Thing {
       //
       this.y -= 2*jumpCounter;
       this.jumpCounter -= 1;
+      this.hasMoved = true;
     } else {
       for (float i = 0; i < sy; i+= 0.3) {
         if (!this.touchingPlatforms()) {
+          this.hasMoved = true;
           //
           //println("not touching platforms");
           this.y += 0.3; // processing is wacky
@@ -180,19 +193,25 @@ class Player extends Thing {
     // NEW KEYPRESS CODE:
     if (this.keys[0]) {
       this.right();
+      this.hasMoved = true;
     }
     if (this.keys[1]) {
       this.left();
+      this.hasMoved = true;
     }
     if (this.keys[2] && (this.borderingPlatforms() || this.jumpCounter == 0)) {
       //
       if (this.borderingPlatforms()) {
         this.jumpCounter = 10;
+        this.hasMoved = true;
       } else if (!this.doubleJump) {
         this.jumpCounter = 7;
         this.doubleJump = true;
+        this.hasMoved = true;
       }
     }
+    // end of tick function:
+    this.position();
     //for (int i = 0; i < 12; i++) {
     //  //
     //  if (!this.touchingPlatforms()) {

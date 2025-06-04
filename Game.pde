@@ -38,10 +38,12 @@ void draw() {
   p.draw();
   p.tick();
   //println("Iteration " + i);
-  test22.draw();
+  //test22.draw();
   for (int i = 0; i < platforms.length; i++) {
     // do stuff to each of the platforms
-    platforms[i].tick();
+    platforms[i].scrollX = p.getScrollX();
+    platforms[i].scrollY = p.getScrollY();
+    platforms[i].tick(p.hasMoved);
   }
   //println("Called draw");
 }

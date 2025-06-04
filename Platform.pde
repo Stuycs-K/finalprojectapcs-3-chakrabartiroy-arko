@@ -7,6 +7,8 @@ class Platform extends Thing {
   private boolean visible; // 0 = hidden, 1 = visible I think
   private float x, y;
   private PImage p;
+  public float scrollX, scrollY;
+  private float currentX, currentY;
   public Platform(String costume, float xpos, float ypos, int xlen, int ylen) {
     //
     //super()
@@ -19,6 +21,10 @@ class Platform extends Thing {
     this.name = costume;
     this.typ = 0;
     this.pTimer = 0;
+    this.scrollX = 0;
+    this.scrollY = 0;
+    this.currentX = this.x;
+    this.currentY = this.y;
     PImage img;
     img = loadImage(this.name + ".png");
     img.resize(xlen, ylen);
@@ -37,7 +43,20 @@ class Platform extends Thing {
     //
     return this.y;
   }
-  public void tick() {
+  // position function:
+  public void position() {
+    // there is a big difference between saying "this.x -= this.scrollX" and having a new variable equal this value because the first one actually changes the value of this.x, which we don't want to do.
+    this.currentX = this.x - this.scrollX;
+    this.currentY = this.y + this.scrollY;
+    //println("scrollX: " + scrollX + "\n scrollY: " + scrollY);
+  }
+  public void tick(boolean posit) {
     //
+    this.x = this.currentX;
+    this.y = this.currentY;
+    if (posit) {
+      this.position();
+    }
+    this.draw();
   }
 }

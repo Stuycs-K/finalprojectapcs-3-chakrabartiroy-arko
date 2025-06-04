@@ -20,6 +20,9 @@ class Player extends Thing {
   private float scrollY;
   private boolean keyPress;
   private int jumpCounter;
+  // for handling multiple keypresses at the same time:
+  public boolean[] keys; // THIS IS PUBLIC
+  private boolean doubleJump;
   //
   private boolean hidden;
   public Player(float xpos, float ypos, float scrollX, float scrollY, Platform[] platformList) {
@@ -44,6 +47,11 @@ class Player extends Thing {
     this.hidden = false;
     this.keyPress = false;
     this.jumpCounter = 0;
+    this.keys = new boolean[3]; // right, left, up keys, respectively
+    for (int i = 0; i < this.keys.length; i++) {
+      this.keys[i] = false;
+    }
+    this.doubleJump = false;
     this.platforms = platformList; // this will be a list of all the platform objects in the level, so we can go through this list whenever checking if player is touching platforms
     //
     PImage img;
@@ -137,6 +145,10 @@ class Player extends Thing {
   }
   public void tick() {
     // tick function!
+    if (this.touchingPlatforms()) {
+      //
+      this.doubleJump = false;
+    }
     if (jumpCounter > 0) {
       //
       this.y -= 2*jumpCounter;
@@ -155,15 +167,31 @@ class Player extends Thing {
     }
     this.sy += 0.3;
     //this.sy = 0;
-    if (keyPressed && keyCode == RIGHT) {
+    //if (keyPressed && keyCode == RIGHT) {
+    //  this.right();
+    //}
+    //if (keyPressed && keyCode == LEFT) {
+    //  this.left();
+    //}
+    //if (keyPressed && keyCode == UP && this.borderingPlatforms()) {
+    //  //
+    //  this.jumpCounter = 10;
+    //}
+    // NEW KEYPRESS CODE:
+    if (this.keys[0]) {
       this.right();
     }
-    if (keyPressed && keyCode == LEFT) {
+    if (this.keys[1]) {
       this.left();
     }
-    if (keyPressed && keyCode == UP && this.borderingPlatforms()) {
+    if (this.keys[2] && (this.borderingPlatforms() || this.jumpCounter == 0)) {
       //
-      this.jumpCounter = 10;
+      if (this.borderingPlatforms()) {
+        this.jumpCounter = 10;
+      } else if (!this.doubleJump) {
+        this.jumpCounter = 7;
+        this.doubleJump = true;
+      }
     }
     //for (int i = 0; i < 12; i++) {
     //  //

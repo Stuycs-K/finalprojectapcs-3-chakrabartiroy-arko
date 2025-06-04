@@ -63,4 +63,29 @@ void keyPressed() {
   if (key == ' ') {
     p.center();
   }
+  // below is in order to handle multiple keypresses at once:
+  if (keyCode == RIGHT) {
+    p.keys[0] = true;
+  }
+  if (keyCode == LEFT) {
+    p.keys[1] = true;
+  }
+  if (keyCode == UP) {
+    p.keys[2] = true;
+  }
+}
+
+// releasing keys:
+
+void keyReleased() {
+  //
+  if (keyCode == RIGHT) {
+    p.keys[0] = false;
+  }
+  if (keyCode == LEFT) {
+    p.keys[1] = false;
+  }
+  if (keyCode == UP) {
+    p.keys[2] = false;
+  }
 }

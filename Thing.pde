@@ -47,6 +47,19 @@ class Thing {
     // placeholder:
     return false;
   }
+  public boolean touching2(Thing obj, float xpos, float ypos, float objx, float objy) {
+    // check if this Thing is touching obj
+    // get all pixels covered by this and object
+  if (!((xpos > objx + obj.xsize && xpos + this.xsize > objx + obj.xsize ) || (xpos < objx && xpos + this.xsize < objx))) {
+      if (!((ypos > objy + obj.ysize && ypos + this.ysize > objy + obj.ysize ) || (ypos < objy && ypos + this.ysize < objy))) {
+        // touching!
+        //println("y condition in super touching function is true");
+        return true;
+      }
+    }
+    // placeholder:
+    return false;
+  }
   // check if two things are bordering
   public boolean bordering(Thing obj, int xpos, int ypos, int objx, int objy) {
     // check if this Thing is touching obj

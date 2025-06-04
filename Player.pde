@@ -117,7 +117,7 @@ class Player extends Thing {
     //
     for (int i = 0; i < this.platforms.length; i++) {
       //
-      if (super.touching(this.platforms[i], this.x, this.y, this.platforms[i].getX(), this.platforms[i].getY())) {
+      if (super.touching2(this.platforms[i], this.x, this.y, this.platforms[i].getX(), this.platforms[i].getY())) {
         //println("Touching platforms");
         return true;
       }

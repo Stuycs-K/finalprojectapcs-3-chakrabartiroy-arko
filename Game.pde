@@ -43,8 +43,11 @@ void draw() {
     // do stuff to each of the platforms
     platforms[i].scrollX = p.getScrollX();
     platforms[i].scrollY = p.getScrollY();
-    platforms[i].tick(p.hasMoved);
+    platforms[i].tick(p.hasMovedX, p.hasMovedY);
   }
+  // reset player scrollX and scrollY
+  p.scrollX = 0;
+  p.scrollY = 0;
   //println("Called draw");
 }
 

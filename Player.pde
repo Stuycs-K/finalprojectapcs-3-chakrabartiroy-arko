@@ -23,7 +23,8 @@ class Player extends Thing {
   // for handling multiple keypresses at the same time:
   public boolean[] keys; // THIS IS PUBLIC
   private boolean doubleJump;
-  public boolean hasMoved;
+  public boolean hasMovedX;
+  public boolean hasMovedY;
   //
   private boolean hidden;
   public Player(float xpos, float ypos, float scrollX, float scrollY, Platform[] platformList) {
@@ -55,7 +56,8 @@ class Player extends Thing {
     this.doubleJump = false;
     this.scrollX = scrollX;
     this.scrollY = scrollY;
-    this.hasMoved = false;
+    this.hasMovedX = false;
+    this.hasMovedY = false;
     this.platforms = platformList; // this will be a list of all the platform objects in the level, so we can go through this list whenever checking if player is touching platforms
     //
     PImage img;
@@ -140,35 +142,36 @@ class Player extends Thing {
     this.currentY = this.y - this.scrollY;
   }
   // game on function, mainly initializing variables and stuff
-  public void gameOn() {
-    //
-    this.x = width/2-10;
-    this.y = height/2-10; // these are the starting positions, placeholders for now
-    this.scrollX = this.x;
-    this.scrollY = this.y;
-    this.sx = 0;
-    this.sy = 0;
-    this.inAir = 0;
-    this.exit = "";
-  }
+  //public void gameOn() {
+  //  //
+  //  this.x = width/2-10;
+  //  this.y = height/2-10; // these are the starting positions, placeholders for now
+  //  this.scrollX = this.x;
+  //  this.scrollY = this.y;
+  //  this.sx = 0;
+  //  this.sy = 0;
+  //  this.inAir = 0;
+  //  this.exit = "";
+  //}
   public void tick() {
     // tick function!
     this.x = this.currentX;
     this.y = this.currentY;
-    this.hasMoved = false;
+    this.hasMovedX = false;
+    this.hasMovedY = false;
     if (this.touchingPlatforms()) {
-      //
+      //0
       this.doubleJump = false;
     }
     if (jumpCounter > 0) {
       //
       this.y -= 2*jumpCounter;
       this.jumpCounter -= 1;
-      this.hasMoved = true;
+      this.hasMovedY = true;
     } else {
       for (float i = 0; i < sy; i+= 0.3) {
         if (!this.touchingPlatforms()) {
-          this.hasMoved = true;
+          //this.hasMovedY = true;
           //
           //println("not touching platforms");
           this.y += 0.3; // processing is wacky
@@ -193,21 +196,21 @@ class Player extends Thing {
     // NEW KEYPRESS CODE:
     if (this.keys[0]) {
       this.right();
-      this.hasMoved = true;
+      this.hasMovedX = true;
     }
     if (this.keys[1]) {
       this.left();
-      this.hasMoved = true;
+      this.hasMovedX = true;
     }
     if (this.keys[2] && (this.borderingPlatforms() || this.jumpCounter == 0)) {
       //
       if (this.borderingPlatforms()) {
         this.jumpCounter = 10;
-        this.hasMoved = true;
+        this.hasMovedY = true;
       } else if (!this.doubleJump) {
         this.jumpCounter = 7;
         this.doubleJump = true;
-        this.hasMoved = true;
+        this.hasMovedY = true;
       }
     }
     // end of tick function:

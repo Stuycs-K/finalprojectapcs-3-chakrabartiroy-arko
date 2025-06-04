@@ -44,19 +44,23 @@ class Platform extends Thing {
     return this.y;
   }
   // position function:
-  public void position() {
+  public void position(boolean moveX, boolean moveY) {
     // there is a big difference between saying "this.x -= this.scrollX" and having a new variable equal this value because the first one actually changes the value of this.x, which we don't want to do.
-    this.currentX = this.x - this.scrollX;
-    this.currentY = this.y + this.scrollY;
+    if (moveX) {
+      //this.currentX = this.x - this.scrollX;
+      this.x -= this.scrollX;
+    }
+    if (moveY) {
+      //this.currentY = this.y + this.scrollY;
+      this.y -= this.scrollY;
+    }
     //println("scrollX: " + scrollX + "\n scrollY: " + scrollY);
   }
-  public void tick(boolean posit) {
+  public void tick(boolean moveX, boolean moveY) {
     //
-    this.x = this.currentX;
-    this.y = this.currentY;
-    if (posit) {
-      this.position();
-    }
+    //this.x = this.currentX;
+    //this.y = this.currentY;
+    this.position(moveX, moveY);
     this.draw();
   }
 }

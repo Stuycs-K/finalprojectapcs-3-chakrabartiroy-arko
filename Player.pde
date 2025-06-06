@@ -220,6 +220,18 @@ class Player extends Thing {
         this.hasMovedY = true;
       }
     }
+    // changes: we need to make sure we're not overlapping
+    for (int j = 0; j < this.platforms.length; j++) {
+      if (super.xOverlapBool(platforms[j], this.x, this.y, platforms[j].x, platforms[j].y)) {
+        //
+        //println("overlapping, j=" + j);
+        float adjust = super.xOverlap(platforms[j], this.x, this.y, platforms[j].x, platforms[j].y);
+        println("adjust = " + adjust);
+        this.x += adjust;
+        this.scrollX += adjust;
+        this.currentX += adjust;
+      }
+    }
     // end of tick function:
     this.position();
     //for (int i = 0; i < 12; i++) {

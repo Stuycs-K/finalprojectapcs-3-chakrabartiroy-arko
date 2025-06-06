@@ -50,7 +50,7 @@ class Thing {
   public boolean touching2(Thing obj, float xpos, float ypos, float objx, float objy) {
     // check if this Thing is touching obj
     // get all pixels covered by this and object
-  if (!((xpos > objx + obj.xsize && xpos + this.xsize > objx + obj.xsize ) || (xpos < objx && xpos + this.xsize < objx))) {
+    if (!((xpos > objx + obj.xsize && xpos + this.xsize > objx + obj.xsize ) || (xpos < objx && xpos + this.xsize < objx))) {
       if (!((ypos > objy + obj.ysize && ypos + this.ysize > objy + obj.ysize ) || (ypos < objy && ypos + this.ysize < objy))) {
         // touching!
         //println("y condition in super touching function is true");
@@ -59,6 +59,46 @@ class Thing {
     }
     // placeholder:
     return false;
+  }
+  public boolean xOverlapBool(Thing obj, float xpos, float ypos, float objx, float objy) {
+    //
+    if (ypos + this.ysize <= objy || objy + obj.ysize <= ypos) {
+      // not overlapping ypos so cannot be overlapping xpos for the purposes of this function
+      return false;
+    }
+    if (xpos + this.xsize <= objx || objx + obj.xsize <= xpos) {
+      // not overlapping xpos
+      return false;
+    }
+    return true;
+  }
+  public float xOverlap(Thing obj, float xpos, float ypos, float objx, float objy) {
+    // check if the xpos are overlapping
+    // first we need to make sure that the ypos make sense
+    if (ypos + this.ysize <= objy || objy + obj.ysize <= ypos) {
+      // not overlapping ypos so cannot be overlapping xpos for the purposes of this function
+      return (float) 0;
+    }
+    // ypos is overlapping, now we handle the xpos:
+    if (xpos + this.xsize <= objx || objx + obj.xsize <= xpos) {
+      // not overlapping xpos
+      return (float) 0;
+    }
+    // they are overlapping!
+    if (keyCode == RIGHT) {
+      // we want to move left -> decrease x -> return negative value
+      // we need to make xpos = objx - this.xsize
+      // so we need to change xpos by (-1 * xpos + objx - this.xsize)
+      return (float) (objx - xpos - this.xsize);
+    }
+    if (keyCode == LEFT) {
+      // want to move right -> increase x -> return positive value
+      // need to make xpos = objx + obj.xsize
+      return (float) (objx + obj.xsize - xpos);
+    }
+    // something has gone terribly wrong, I think
+    //println("Error on xOverlap");
+    return (float) 0;
   }
   // check if two things are bordering
   public boolean bordering(Thing obj, int xpos, int ypos, int objx, int objy) {

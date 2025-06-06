@@ -69,6 +69,10 @@ void keyPressed() {
   //}
   if (key == ' ') {
     p.center();
+    for (int i = 0; i < platforms.length; i++) {
+      // reset platforms
+      platforms[i].devReset = true;
+    }
   }
   // below is in order to handle multiple keypresses at once:
   if (keyCode == RIGHT) {
@@ -86,6 +90,12 @@ void keyPressed() {
 
 void keyReleased() {
   //
+  if (key == ' ') {
+    for (int i = 0; i < platforms.length; i++) {
+      // stop resetting platforms
+      platforms[i].devReset = false;
+    }
+  }
   if (keyCode == RIGHT) {
     p.keys[0] = false;
   }

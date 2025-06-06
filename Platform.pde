@@ -9,6 +9,7 @@ class Platform extends Thing {
   private PImage p;
   public float scrollX, scrollY;
   private float currentX, currentY;
+  public boolean devReset;
   public Platform(String costume, float xpos, float ypos, int xlen, int ylen) {
     //
     //super()
@@ -25,6 +26,7 @@ class Platform extends Thing {
     this.scrollY = 0;
     this.currentX = this.x;
     this.currentY = this.y;
+    this.devReset = false;
     PImage img;
     img = loadImage(this.name + ".png");
     img.resize(xlen, ylen);
@@ -42,6 +44,13 @@ class Platform extends Thing {
   public float getY() {
     //
     return this.y;
+  }
+  public void center() {
+    // reset
+    this.x = this.originX;
+    this.y = this.originY;
+    this.scrollX = 0;
+    this.scrollY = 0;
   }
   // position function:
   public void position(boolean moveX, boolean moveY) {
@@ -61,6 +70,9 @@ class Platform extends Thing {
     //this.x = this.currentX;
     //this.y = this.currentY;
     this.position(moveX, moveY);
+    if (this.devReset) {
+      this.center();
+    }
     this.draw();
   }
 }

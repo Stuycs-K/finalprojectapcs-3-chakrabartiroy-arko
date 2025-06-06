@@ -110,6 +110,13 @@ class Player extends Thing {
     // dev function
     this.x = width/2-10;
     this.y = height/2-10;
+    this.currentX = this.x;
+    this.currentY = this.y;
+    this.sx = 5; // init value
+    this.sy = 0;
+    this.inAir = 0;
+    this.jumpCounter = 0;
+    this.doubleJump = false;
     this.scrollX = 0;
     this.scrollY = 0;
   }

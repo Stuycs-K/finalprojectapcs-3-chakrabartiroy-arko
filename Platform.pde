@@ -14,7 +14,7 @@ class Platform extends Thing {
     //
     //super()
     // xlen, ylen will be given in an array in Game.pde based on the lengths of the different platforms
-    super(xlen, ylen, xpos, ypos);
+    super(xlen, ylen, xpos, ypos, 0, 0);
     this.x = xpos;
     this.y = ypos;
     this.originX = xpos;

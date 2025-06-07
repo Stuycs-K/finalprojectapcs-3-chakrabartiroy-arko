@@ -7,8 +7,10 @@ class Thing {
   public String collectedDisplay, exit;
   public int xsize, ysize;
   public float x, y;
+  public int sx;
+  public float sy;
   public float scrollX, scrollY;
-  public Thing(int xlen, int ylen, float xpos, float ypos) {
+  public Thing(int xlen, int ylen, float xpos, float ypos, int sxp, float syp) {
     //
     this.scrollX = 0;
     this.scrollY = 0;
@@ -24,6 +26,8 @@ class Thing {
     this.x = xpos;
     this.y = ypos;
     this.exit = "";
+    this.sx = sxp;
+    this.sy = syp;
   }
   // check if two things are touching
   public boolean touching(Thing obj, float xpos, float ypos, float objx, float objy) {
@@ -60,6 +64,36 @@ class Thing {
     // placeholder:
     return false;
   }
+  public boolean borderingRight(Thing obj, float xpos, float ypos, float objx, float objy) {
+    // platform is on the RIGHT side of the player
+    if (ypos + this.ysize <= objy || objy + obj.ysize <= ypos) {
+      // not overlapping ypos so cannot be overlapping xpos for the purposes of this function
+      return false;
+    }
+    if (xpos + this.xsize + this.sx < objx) {
+      return false;
+    }
+    if (xpos + this.xsize <= objx && xpos + this.xsize + this.sx >= objx) {
+      this.x += (objx - this.xsize - xpos);
+      return true;
+    }
+    return false;
+  }
+  public boolean borderingLeft(Thing obj, float xpos, float ypos, float objx, float objy) {
+    // platform is on the LEFT side of the player
+    if (ypos + this.ysize <= objy || objy + obj.ysize <= ypos) {
+      // not overlapping ypos so cannot be overlapping xpos for the purposes of this function
+      return false;
+    }
+    if (objx + obj.xsize + this.sx < xpos) {
+      return false;
+    }
+    if (objx + obj.xsize <= xpos && objx + obj.xsize + this.sx >= xpos) {
+      this.x += (objx + obj.xsize -xpos);
+      return true;
+    }
+    return false;
+  }
   public boolean xOverlapBool(Thing obj, float xpos, float ypos, float objx, float objy) {
     //
     if (ypos + this.ysize <= objy || objy + obj.ysize <= ypos) {
@@ -89,11 +123,13 @@ class Thing {
       // we want to move left -> decrease x -> return negative value
       // we need to make xpos = objx - this.xsize
       // so we need to change xpos by (-1 * xpos + objx - this.xsize)
+      keyCode = ALT;
       return (float) (objx - xpos - this.xsize);
     }
     if (keyCode == LEFT) {
       // want to move right -> increase x -> return positive value
       // need to make xpos = objx + obj.xsize
+      keyCode = ALT;
       return (float) (objx + obj.xsize - xpos);
     }
     // something has gone terribly wrong, I think

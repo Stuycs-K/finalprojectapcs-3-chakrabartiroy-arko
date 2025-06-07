@@ -25,11 +25,13 @@ class Player extends Thing {
   private boolean doubleJump;
   public boolean hasMovedX;
   public boolean hasMovedY;
+  public boolean borderRight;
+  public boolean borderLeft;
   //
   private boolean hidden;
   public Player(float xpos, float ypos, float scrollX, float scrollY, Platform[] platformList) {
     //
-    super(20, 20, xpos, ypos);
+    super(20, 20, xpos, ypos, 5, (float) 0);
     this.x = xpos;
     this.y = ypos;
     this.currentX = xpos;
@@ -58,6 +60,8 @@ class Player extends Thing {
     this.scrollY = scrollY;
     this.hasMovedX = false;
     this.hasMovedY = false;
+    this.borderLeft = false;
+    this.borderRight = false;
     this.platforms = platformList; // this will be a list of all the platform objects in the level, so we can go through this list whenever checking if player is touching platforms
     //
     PImage img;
@@ -89,6 +93,12 @@ class Player extends Thing {
   }
   public void right() {
     //
+    for (int i = 0; i < this.platforms.length; i++) {
+      //
+      if (super.borderingRight(this.platforms[i], this.x, this.y, this.platforms[i].x, this.platforms[i].y)) {
+        return;
+      }
+    }
     for (int i = 0; i < this.sx*10; i++) {
       //
       this.x += 0.1;
@@ -99,6 +109,12 @@ class Player extends Thing {
   }
   public void left() {
     //
+    for (int i = 0; i < this.platforms.length; i++) {
+      //
+      if (super.borderingLeft(this.platforms[i], this.x, this.y, this.platforms[i].x, this.platforms[i].y)) {
+        return;
+      }
+    }
     for (int i = 0; i < this.sx; i++) {
       //
       this.x -= 1;
@@ -221,37 +237,20 @@ class Player extends Thing {
       }
     }
     // changes: we need to make sure we're not overlapping
-    for (int j = 0; j < this.platforms.length; j++) {
-      if (super.xOverlapBool(platforms[j], this.x, this.y, platforms[j].x, platforms[j].y)) {
-        //
-        //println("overlapping, j=" + j);
-        float adjust = super.xOverlap(platforms[j], this.x, this.y, platforms[j].x, platforms[j].y);
-        println("adjust = " + adjust);
-        this.x += adjust;
-        this.scrollX += adjust;
-        this.currentX += adjust;
-      }
-    }
+    //for (int j = 0; j < this.platforms.length; j++) {
+    //  if (super.xOverlapBool(platforms[j], this.x, this.y, platforms[j].x, platforms[j].y)) {
+    //    //
+    //    //println("overlapping, j=" + j);
+    //    float adjust = super.xOverlap(platforms[j], this.x, this.y, platforms[j].x, platforms[j].y);
+    //    println("speed y = " + this.sy);
+    //    //println("adjust = " + adjust);
+    //    this.x += adjust;
+    //    this.scrollX += adjust;
+    //    this.currentX += adjust;
+    //  }
+    //}
     // end of tick function:
     this.position();
-    //for (int i = 0; i < 12; i++) {
-    //  //
-    //  if (!this.touchingPlatforms()) {
-    //    //
-    //    this.y += 1;
-    //  }
-    //}
-    //if (!this.touchingPlatforms()) {
-    //  this.y += 12;
-    //}
-    //else {
-    //  //
-    //  while (this.touchingPlatforms() && !this.borderingPlatforms()) {
-    //    // move back up/out of the platforms
-    //    this.y -= 0.3;
-    //  }
-    //  this.sy = 0;
-    //}
   }
   // game die
   public void gameDie() {

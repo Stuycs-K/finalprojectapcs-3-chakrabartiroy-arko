@@ -19,7 +19,7 @@ void setup() {
   lv1p4 = new Platform("Test22", 1776, height/2+80, 538, 85); // original dimensions 269*85
   lv1p5 = new Platform("Test22", 2400, height/2-50, 269, 50); // original dimensions 269*85
   lv1p6 = new Platform("Test22", 2700, height/2-120, 1076, 85); // original dimensions 269*85
-  lv1p7 = new Platform("Test22", 800, height/2-100, 538, 85); // original dimensions 269*85
+  lv1p7 = new Platform("Test22", 800, height/2-110, 538, 85); // original dimensions 269*85
   // x = 40, y = 400
   // IMPORTANT: INITIALIZE PLATFORMS BEFORE PLAYER!
   platforms = new Platform[] {lv1p1, lv1p2, lv1p3, lv1p4, lv1p5, lv1p6, lv1p7};

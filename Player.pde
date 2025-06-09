@@ -27,6 +27,7 @@ class Player extends Thing {
   public boolean hasMovedY;
   public boolean borderRight;
   public boolean borderLeft;
+  private boolean hitTop;
   //
   private boolean hidden;
   public Player(float xpos, float ypos, float scrollX, float scrollY, Platform[] platformList) {
@@ -62,6 +63,7 @@ class Player extends Thing {
     this.hasMovedY = false;
     this.borderLeft = false;
     this.borderRight = false;
+    this.hitTop = false;
     this.platforms = platformList; // this will be a list of all the platform objects in the level, so we can go through this list whenever checking if player is touching platforms
     //
     PImage img;
@@ -194,6 +196,7 @@ class Player extends Thing {
       for (int l = 0; l < this.platforms.length; l++) {
         //
         if (super.borderingTop(this.platforms[l], this.x, this.y, this.platforms[l].getX(), this.platforms[l].getY())) {
+          this.hitTop = true;
           this.jumpCounter = 0;
         }
       }
@@ -206,6 +209,7 @@ class Player extends Thing {
           this.y += 0.3; // processing is wacky
           //this.sy += 0.3; //
         } else {
+          this.hitTop = false;
           this.sy = 0;
         }
     }
@@ -245,26 +249,13 @@ class Player extends Thing {
         if (this.borderingPlatforms()) {
           this.jumpCounter = 10;
           this.hasMovedY = true;
-        } else if (!this.doubleJump) {
+        } else if (!this.doubleJump && !this.hitTop) {
           this.jumpCounter = 7;
           this.doubleJump = true;
           this.hasMovedY = true;
         }
       }
     }
-    // changes: we need to make sure we're not overlapping
-    //for (int j = 0; j < this.platforms.length; j++) {
-    //  if (super.xOverlapBool(platforms[j], this.x, this.y, platforms[j].x, platforms[j].y)) {
-    //    //
-    //    //println("overlapping, j=" + j);
-    //    float adjust = super.xOverlap(platforms[j], this.x, this.y, platforms[j].x, platforms[j].y);
-    //    println("speed y = " + this.sy);
-    //    //println("adjust = " + adjust);
-    //    this.x += adjust;
-    //    this.scrollX += adjust;
-    //    this.currentX += adjust;
-    //  }
-    //}
     // end of tick function:
     this.position();
   }

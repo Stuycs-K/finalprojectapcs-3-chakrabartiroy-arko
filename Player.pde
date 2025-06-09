@@ -31,12 +31,12 @@ class Player extends Thing {
   private boolean hidden;
   public Player(float xpos, float ypos, float scrollX, float scrollY, Platform[] platformList) {
     //
-    super(20, 20, xpos, ypos, 5, (float) 0);
+    super(20, 20, xpos, ypos, 7, (float) 0);
     this.x = xpos;
     this.y = ypos;
     this.currentX = xpos;
     this.currentY = ypos;
-    this.sx = 5.0; // random init value
+    this.sx = 7.0; // random init value
     this.sy = 0;
     this.inAir = 0;
     // test:
@@ -111,7 +111,7 @@ class Player extends Thing {
     //
     for (int i = 0; i < this.platforms.length; i++) {
       //
-      if (super.borderingLeft(this.platforms[i], this.x, this.y, this.platforms[i].x, this.platforms[i].y)) {
+      if (super.borderingLeft(this.platforms[i], this.x, this.y, this.platforms[i].getX(), this.platforms[i].getY())) {
         return;
       }
     }
@@ -191,6 +191,12 @@ class Player extends Thing {
       this.y -= 2*jumpCounter;
       this.jumpCounter -= 1;
       this.hasMovedY = true;
+      for (int l = 0; l < this.platforms.length; l++) {
+        //
+        if (super.borderingTop(this.platforms[l], this.x, this.y, this.platforms[l].getX(), this.platforms[l].getY())) {
+          this.jumpCounter = 0;
+        }
+      }
     } else {
       for (float i = 0; i < sy; i+= 0.3) {
         if (!this.touchingPlatforms()) {
@@ -227,13 +233,23 @@ class Player extends Thing {
     }
     if (this.keys[2] && (this.borderingPlatforms() || this.jumpCounter == 0)) {
       //
-      if (this.borderingPlatforms()) {
-        this.jumpCounter = 10;
-        this.hasMovedY = true;
-      } else if (!this.doubleJump) {
-        this.jumpCounter = 7;
-        this.doubleJump = true;
-        this.hasMovedY = true;
+      boolean canJump = true;
+      for (int k = 0; k < this.platforms.length; k++) {
+        if (super.borderingTop(this.platforms[k], this.x, this.y, this.platforms[k].getX(), this.platforms[k].getY())) {
+          //
+          println("true");
+          canJump = false;
+        }
+      }
+      if (canJump) {
+        if (this.borderingPlatforms()) {
+          this.jumpCounter = 10;
+          this.hasMovedY = true;
+        } else if (!this.doubleJump) {
+          this.jumpCounter = 7;
+          this.doubleJump = true;
+          this.hasMovedY = true;
+        }
       }
     }
     // changes: we need to make sure we're not overlapping

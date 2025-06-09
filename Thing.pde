@@ -94,6 +94,19 @@ class Thing {
     }
     return false;
   }
+  public boolean borderingTop(Thing obj, float xpos, float ypos, float objx, float objy) {
+    // platform is on TOP of the player, we do not want to jump
+    if (xpos + this.xsize <= objx || objx + obj.xsize <= xpos) {
+      return false;
+    }
+    if (objy >= ypos) {
+      return false;
+    }
+    if (ypos >= objy + obj.ysize && ypos <= objy + obj.ysize + 20) {
+      return true;
+    }
+    return false;
+  }
   public boolean xOverlapBool(Thing obj, float xpos, float ypos, float objx, float objy) {
     //
     if (ypos + this.ysize <= objy || objy + obj.ysize <= ypos) {

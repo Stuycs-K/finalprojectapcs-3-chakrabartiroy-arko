@@ -2,6 +2,10 @@ Player p;
 Platform lv1p1;
 Platform lv1p2;
 Platform lv1p3;
+Platform lv1p4;
+Platform lv1p5;
+Platform lv1p6;
+Platform lv1p7;
 Platform[] platforms;
 boolean gameRunning;
 
@@ -12,9 +16,13 @@ void setup() {
   lv1p1 = new Platform("Test22", 40, height/2+150, 538, 85); // original dimensions 269*85
   lv1p2 = new Platform("Test22", 700, height/2+100, 538, 85); // original dimensions 269*85
   lv1p3 = new Platform("Test22", 1238, height/2+15, 538, 85); // original dimensions 269*85
+  lv1p4 = new Platform("Test22", 1776, height/2+80, 538, 85); // original dimensions 269*85
+  lv1p5 = new Platform("Test22", 2400, height/2-50, 269, 50); // original dimensions 269*85
+  lv1p6 = new Platform("Test22", 2700, height/2-120, 1076, 85); // original dimensions 269*85
+  lv1p7 = new Platform("Test22", 800, height/2-100, 538, 85); // original dimensions 269*85
   // x = 40, y = 400
   // IMPORTANT: INITIALIZE PLATFORMS BEFORE PLAYER!
-  platforms = new Platform[] {lv1p1, lv1p2, lv1p3};
+  platforms = new Platform[] {lv1p1, lv1p2, lv1p3, lv1p4, lv1p5, lv1p6, lv1p7};
   p = new Player(width/2-10, height/2-10, 0, 0, platforms);
   // x = 390, y = 240
   gameRunning = true;

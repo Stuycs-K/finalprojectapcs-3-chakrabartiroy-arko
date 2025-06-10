@@ -259,6 +259,10 @@ class Player extends Thing {
     // end of tick function:
     this.position();
   }
+  public void die() {
+    // for now just reposition it to the beginning
+    this.center();
+  }
   // game die
   public void gameDie() {
     //

@@ -1,7 +1,7 @@
-public class Spikes extends Danger {
+public class Spike extends Danger {
   //
   private PImage p;
-  public Spikes(int xlen, int ylen, float xpos, float ypos, int sxp, float syp) {
+  public Spike(int xlen, int ylen, float xpos, float ypos, int sxp, float syp) {
     //
     super(xlen, ylen, xpos, ypos, sxp, syp);
     // placeholder for now

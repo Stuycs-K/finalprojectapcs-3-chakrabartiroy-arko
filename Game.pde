@@ -7,8 +7,9 @@ Platform lv1p5;
 Platform lv1p6;
 Platform lv1p7;
 //Platform lv1p8;
-Spikes l1s1;
+Spike l1s1;
 Platform[] platforms;
+Spike[] spikes;
 boolean gameRunning;
 
 void setup() {
@@ -22,7 +23,7 @@ void setup() {
   lv1p5 = new Platform("Test22", 2400, height/2-50, 269, 50); // original dimensions 269*85
   lv1p6 = new Platform("Test22", 2700, height/2-120, 1076, 85); // original dimensions 269*85
   lv1p7 = new Platform("Test22", 800, height/2-110, 538, 85); // original dimensions 269*85
-  l1s1 = new Spikes(0, 0, height/2, width/2, 0, 0);
+  l1s1 = new Spike(0, 0, height/2, width/2, 0, 0);
   //lv1p8 = new Platform("Floating Island", 1500, height/2-160, 117, 48); // original dimensions 117*48
   
   // x = 40, y = 400

@@ -33,15 +33,6 @@ void setup() {
   p = new Player(width/2-10, height/2-10, 0, 0, platforms);
   // x = 390, y = 240
   gameRunning = true;
-  // testing purposes, check if two things are touching
-  //Player q = new Player(width/2+10, height/2+10, 0, 0);
-  //if (p.touching(q)) {
-  //  //
-  //  System.out.println("p is touching q");
-  //} else {
-  //  //
-  //  System.out.println("p is not touching q");
-  //}
 }
 
 
@@ -56,8 +47,6 @@ void draw() {
   //p.gameOn();
   p.draw();
   p.tick();
-  //println("Iteration " + i);
-  //test22.draw();
   for (int i = 0; i < platforms.length; i++) {
     // do stuff to each of the platforms
     platforms[i].scrollX = p.getScrollX();

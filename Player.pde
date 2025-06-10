@@ -74,7 +74,6 @@ class Player extends Thing {
     image(p, xpos, ypos);
     j = new Joystick();
   }
-  // function to move right, this will be changed later but I just want to check/test basic movement functionality in processing
   public void draw() {
     //
     image(this.p, this.x, this.y);
@@ -96,23 +95,19 @@ class Player extends Thing {
   public void right() {
     //
     for (int i = 0; i < this.platforms.length; i++) {
-      //
       if (super.borderingRight(this.platforms[i], this.x, this.y, this.platforms[i].x, this.platforms[i].y)) {
         return;
       }
     }
     for (int i = 0; i < this.sx*10; i++) {
-      //
       this.x += 0.1;
       this.currentX += 0.1;
       this.scrollX += 0.1;
     }
-    //this.x += sx;
   }
   public void left() {
     //
     for (int i = 0; i < this.platforms.length; i++) {
-      //
       if (super.borderingLeft(this.platforms[i], this.x, this.y, this.platforms[i].getX(), this.platforms[i].getY())) {
         return;
       }
@@ -141,9 +136,7 @@ class Player extends Thing {
   public boolean touchingPlatforms() {
     //
     for (int i = 0; i < this.platforms.length; i++) {
-      //
       if (super.touching2(this.platforms[i], this.x, this.y, this.platforms[i].getX(), this.platforms[i].getY())) {
-        //println("Touching platforms");
         return true;
       }
     }
@@ -152,9 +145,7 @@ class Player extends Thing {
   public boolean borderingPlatforms() {
     //
     for (int i = 0; i < this.platforms.length; i++) {
-      //
       if (super.bordering(this.platforms[i], (int) this.x, (int) this.y, (int) this.platforms[i].getX(), (int) this.platforms[i].getY())) {
-        //println("Touching platforms");
         return true;
       }
     }
@@ -166,18 +157,6 @@ class Player extends Thing {
     this.currentX = this.x - this.scrollX;
     this.currentY = this.y - this.scrollY;
   }
-  // game on function, mainly initializing variables and stuff
-  //public void gameOn() {
-  //  //
-  //  this.x = width/2-10;
-  //  this.y = height/2-10; // these are the starting positions, placeholders for now
-  //  this.scrollX = this.x;
-  //  this.scrollY = this.y;
-  //  this.sx = 0;
-  //  this.sy = 0;
-  //  this.inAir = 0;
-  //  this.exit = "";
-  //}
   public void tick() {
     // tick function!
     this.x = this.currentX;
@@ -185,7 +164,7 @@ class Player extends Thing {
     this.hasMovedX = false;
     this.hasMovedY = false;
     if (this.touchingPlatforms()) {
-      //0
+      //
       this.doubleJump = false;
     }
     if (jumpCounter > 0) {
@@ -194,7 +173,6 @@ class Player extends Thing {
       this.jumpCounter -= 1;
       this.hasMovedY = true;
       for (int l = 0; l < this.platforms.length; l++) {
-        //
         if (super.borderingTop(this.platforms[l], this.x, this.y, this.platforms[l].getX(), this.platforms[l].getY())) {
           this.hitTop = true;
           this.jumpCounter = 0;
@@ -203,11 +181,7 @@ class Player extends Thing {
     } else {
       for (float i = 0; i < sy; i+= 0.3) {
         if (!this.touchingPlatforms()) {
-          //this.hasMovedY = true;
-          //
-          //println("not touching platforms");
           this.y += 0.3; // processing is wacky
-          //this.sy += 0.3; //
         } else {
           this.hitTop = false;
           this.sy = 0;
@@ -215,17 +189,6 @@ class Player extends Thing {
     }
     }
     this.sy += 0.3;
-    //this.sy = 0;
-    //if (keyPressed && keyCode == RIGHT) {
-    //  this.right();
-    //}
-    //if (keyPressed && keyCode == LEFT) {
-    //  this.left();
-    //}
-    //if (keyPressed && keyCode == UP && this.borderingPlatforms()) {
-    //  //
-    //  this.jumpCounter = 10;
-    //}
     // NEW KEYPRESS CODE:
     if (this.keys[0]) {
       this.right();

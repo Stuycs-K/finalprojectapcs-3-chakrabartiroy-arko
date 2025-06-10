@@ -12,7 +12,6 @@ class Platform extends Thing {
   public boolean devReset;
   public Platform(String costume, float xpos, float ypos, int xlen, int ylen) {
     //
-    //super()
     // xlen, ylen will be given in an array in Game.pde based on the lengths of the different platforms
     super(xlen, ylen, xpos, ypos, 0, 0);
     this.x = xpos;
@@ -54,21 +53,17 @@ class Platform extends Thing {
   }
   // position function:
   public void position(boolean moveX, boolean moveY) {
-    // there is a big difference between saying "this.x -= this.scrollX" and having a new variable equal this value because the first one actually changes the value of this.x, which we don't want to do.
+    //
     if (moveX) {
-      //this.currentX = this.x - this.scrollX;
       this.x -= this.scrollX;
     }
     if (moveY) {
-      //this.currentY = this.y + this.scrollY;
       this.y -= this.scrollY;
     }
     //println("scrollX: " + scrollX + "\n scrollY: " + scrollY);
   }
   public void tick(boolean moveX, boolean moveY) {
     //
-    //this.x = this.currentX;
-    //this.y = this.currentY;
     this.position(moveX, moveY);
     if (this.devReset) {
       this.center();

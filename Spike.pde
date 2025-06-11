@@ -36,6 +36,12 @@ public class Spike extends Danger {
     // draw all platforms
     image(this.p, this.x, this.y);
   }
+  public float getX() {
+    return this.x;
+  }
+  public float getY() {
+    return this.y;
+  }
   public void center() {
     // reset
     this.x = this.originX;

@@ -40,6 +40,7 @@ class Thing {
       //
       if (ypos <= obj.y + obj.ysize && ypos + this.ysize >= obj.y) {
         // touching!
+        //println("touching");
         return true;
       }
     }

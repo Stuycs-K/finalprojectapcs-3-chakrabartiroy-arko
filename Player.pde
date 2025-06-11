@@ -8,6 +8,7 @@ class Player extends Thing {
   private Joystick j;
   private int inAir;
   private Platform[] platforms;
+  private Spike[] spikes;
   // just in case
   private float currentX, currentY;
   // just in case ig?
@@ -28,9 +29,10 @@ class Player extends Thing {
   public boolean borderRight;
   public boolean borderLeft;
   private boolean hitTop;
+  public boolean dead;
   //
   private boolean hidden;
-  public Player(float xpos, float ypos, float scrollX, float scrollY, Platform[] platformList) {
+  public Player(float xpos, float ypos, float scrollX, float scrollY, Platform[] platformList, Spike[] spikeList) {
     //
     super(20, 20, xpos, ypos, 7, (float) 0);
     this.x = xpos;
@@ -64,7 +66,9 @@ class Player extends Thing {
     this.borderLeft = false;
     this.borderRight = false;
     this.hitTop = false;
+    this.dead = false;
     this.platforms = platformList; // this will be a list of all the platform objects in the level, so we can go through this list whenever checking if player is touching platforms
+    this.spikes = spikeList;
     //
     PImage img;
     img = loadImage("player.png");
@@ -132,6 +136,7 @@ class Player extends Thing {
     this.doubleJump = false;
     this.scrollX = 0;
     this.scrollY = 0;
+    this.dead = false;
   }
   public boolean touchingPlatforms() {
     //
@@ -151,6 +156,15 @@ class Player extends Thing {
     }
     return false; // there we go1
   }
+  public boolean touchingSpikes() {
+    //
+    for (int i = 0; i < this.spikes.length; i++) {
+      if (super.touching2(this.spikes[i], this.x, this.y, this.spikes[i].getX(), this.spikes[i].getY())) {
+        return true;
+      }
+    }
+    return false; // there we go1
+  }
   // position function:
   public void position() {
     // there is a big difference between saying "this.x -= this.scrollX" and having a new variable equal this value because the first one actually changes the value of this.x, which we don't want to do.
@@ -159,10 +173,19 @@ class Player extends Thing {
   }
   public void tick() {
     // tick function!
+    this.dead = false;
     this.x = this.currentX;
     this.y = this.currentY;
     this.hasMovedX = false;
     this.hasMovedY = false;
+    // CHECK FOR DEATH
+    if (this.touchingSpikes()) {
+      //println("touching spikes");
+      this.dead = true;
+      //this.die();
+      return; // END FUNCTION
+    }
+    //
     if (this.touchingPlatforms()) {
       //
       this.doubleJump = false;
@@ -224,7 +247,9 @@ class Player extends Thing {
   }
   public void die() {
     // for now just reposition it to the beginning
-    this.center();
+    // stop everything else, have the player draw every second consecutive tick for some number of times, then reset
+    //this.dead = true;
+    //this.center();
   }
   // game die
   public void gameDie() {

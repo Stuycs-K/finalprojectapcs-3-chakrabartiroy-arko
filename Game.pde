@@ -86,15 +86,14 @@ void draw() {
       }
       counter += 1;
       try {
-        Thread.sleep(100);
+        Thread.sleep(1000);
+        println("m: " + m);
       } catch (Exception f) {
         println("java sucks");
       }
     }
     try {
-      if (counter == 10) {
-        Thread.sleep(5000);
-      }
+      Thread.sleep(5000);
     } catch (Exception e) {
       println("java is annoying");
     }

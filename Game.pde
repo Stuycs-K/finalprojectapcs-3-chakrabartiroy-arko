@@ -10,6 +10,7 @@ Spike[] spikes;
 Coin[] coins;
 Enemy[] enemies;
 int level = 1;
+// complete ig
 
 boolean gameRunning;
 boolean immortal;

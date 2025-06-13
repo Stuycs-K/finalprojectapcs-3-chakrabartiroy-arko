@@ -4,6 +4,7 @@ Spike lv1d1, lv1d2;
 Platform[] platforms;
 Spike[] spikes;
 boolean gameRunning;
+boolean immortal;
 
 int deathTimer    = 0;       // counts frames since death began
 int deathDuration = 60;      // e.g. 60 frames ≈ 1 second at 60 FPS
@@ -36,11 +37,14 @@ void setup() {
   gameRunning = true;
 
   // — Portal —
-  exitPortal = new Portal(300, 100, 86, 86);
+  exitPortal = new Portal(4400, height/2-150, 86, 86);
   exitPortal.active = true;
 }
 
 void draw() {
+  if (immortal) {
+    isDead = false;
+  }
   if (isDead) {
     // — DEATH BLINK & MESSAGE —
     background(255);
@@ -146,6 +150,9 @@ void keyPressed() {
   if (keyCode==RIGHT) p.keys[0]=true;
   if (keyCode==LEFT)  p.keys[1]=true;
   if (keyCode==UP)    p.keys[2]=true;
+  if (key=='i') {
+    immortal = true;
+  }
 }
 void keyReleased() {
   if (key==' ') {

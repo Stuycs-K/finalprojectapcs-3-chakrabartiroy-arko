@@ -3,54 +3,44 @@ Platform lv1p1, lv1p2, lv1p3, lv1p4, lv1p5, lv1p6, lv1p7;
 Spike lv1d1, lv1d2;
 Platform[] platforms;
 Spike[] spikes;
-ArrayList<Coin> coins;
+Coin[] coins;
+int level = 1;
+
 boolean gameRunning;
 boolean immortal;
 
-int deathTimer    = 0;       // counts frames since death began
-int deathDuration = 60;      // e.g. 60 frames ≈ 1 second at 60 FPS
-boolean isDead    = false;
+int deathTimer = 0; // counts frames since death began
+int deathDuration = 60; // e.g. 60 frames ≈ 1 second at 60 FPS
+int passTimer = 0;
+int passDuration = 120;
+boolean isDead = false;
 
 // new portal stuff
-Portal   exitPortal;
+Portal exitPortal;
 boolean levelPassed = false;
 boolean coinsCollected = false;
 
 void setup() {
   size(800, 500);
-
+  level = 1;
   // — Platforms —
   lv1p1 = new Platform("Test22",  40,  height/2+150, 538, 85);
   lv1p2 = new Platform("Test22", 700,  height/2+100, 538, 85);
-  lv1p3 = new Platform("Test22",1238,  height/2+15,  538, 85);
-  lv1p4 = new Platform("Test22",1776,  height/2+80,  538, 85);
-  lv1p5 = new Platform("Test22",2400,  height/2-50,  269, 50);
-  lv1p6 = new Platform("Test22",2700,  height/2-120, 1076,85);
+  lv1p3 = new Platform("Test22", 1238,  height/2+15,  538, 85);
+  lv1p4 = new Platform("Test22", 1776,  height/2+80,  538, 85);
+  lv1p5 = new Platform("Test22", 2400,  height/2-50,  269, 50);
+  lv1p6 = new Platform("Test22", 2700,  height/2-120, 1076,85);
   lv1p7 = new Platform("Test22", 800,  height/2-110, 538, 85);
   platforms = new Platform[]{lv1p1,lv1p2,lv1p3,lv1p4,lv1p5,lv1p6,lv1p7};
   
-  
-
   // — Spikes —
   lv1d1 = new Spike("Spikes", 250,  height/2+150-21, 65,21);
   lv1d2 = new Spike("Spikes", 800,  height/2+100-21, 65,21);
   spikes = new Spike[]{lv1d1, lv1d2};
   
   // — coins —
-  coins = new ArrayList<Coin>();
-  int coinsPerPlat = 2;
-  int coinSize     = 32;
-  
-  // Find the rightmost platform edge in world coords
-  float mapEndX = 0;
-  for (Platform plt : platforms) {
-    mapEndX = max(mapEndX, plt.x + plt.xsize);
-    for (int i = 0; i < coinsPerPlat; i++) {
-      float cx = plt.x + (plt.xsize/(coinsPerPlat+1))*(i+1) - coinSize/2;
-      float cy = plt.y - coinSize - 5;
-      coins.add(new Coin("coin", cx, cy, coinSize, coinSize));
-    }
-  }
+  coins = new Coin[] {};
+  int coinSize = 32;
   
   // — Player —
   p = new Player(width/2-10, height/2-10, 0, 0, platforms, spikes);
@@ -67,11 +57,11 @@ void draw() {
   }
   if (isDead) {
     // — DEATH BLINK & MESSAGE —
-    background(255);
+    background(0);
     for (Platform plt : platforms) plt.draw();
     for (Spike sp : spikes)    sp.draw();
 
-    fill(255, 0, 0);
+    fill(255, 255, 0); // bright yellow
     textSize(64);
     text("You Died!", width/2-110, 100);
 
@@ -82,18 +72,35 @@ void draw() {
     if (deathTimer >= deathDuration) {
       resetLevel();
     }
-  }
-  else if (levelPassed) {
+  } else if (levelPassed && level == 1) {
+    //try {
+    //  Thread.sleep(2000);
+    //} catch (Exception g) {
+    //  println("exception");
+    //}
     // — PASS SCREEN —
     background(0, 150, 200);
     fill(255);
     textAlign(CENTER, CENTER);
     textSize(48);
     text("YOU PASSED!", width/2, height/2);
-  }
-  else {
+    passTimer++;
+    if (passTimer >= passDuration) {
+      // go to next level
+      level += 1;
+      generateLevel(2);
+      levelPassed = false;
+    }
+  } else if (levelPassed) {
+    // — WIN SCREEN —
+    background(0, 150, 200);
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textSize(48);
+    text("YOU WON!", width/2, height/2);
+  } else {
     // — NORMAL GAMEPLAY —
-    background(255); //
+    background(0); //
 
     // 1) Player
     p.draw();
@@ -150,10 +157,10 @@ void draw() {
       if (c.collected) collectedCount++;
     }
     // draw coin counter in the corner
-    fill(0);                   // black text
+    fill(255);                   // black text
     textSize(20);              // adjust legibility
     textAlign(LEFT, TOP);
-    text("Coins: " + collectedCount + " / " + coins.size(), 10, 10);
+    text("Coins: " + collectedCount + " / " + coins.length, 10, 10);
 
     // 6) Reset camera scroll
     p.scrollX = 0;
@@ -193,6 +200,44 @@ void resetLevel() {
   deathTimer = 0;
   levelPassed = false;
 }
+
+// generating levels (level != 1)
+void generateLevel(int l) {
+  //
+  if (l == 2) {
+    //
+    // — Platforms —
+  lv1p1 = new Platform("Test22",  -100,  height/2+150, 538, 85);
+  lv1p2 = new Platform("Test22", 700,  height/2+100, 538, 85);
+  lv1p3 = new Platform("Test22", 1238,  height/2+15,  538, 85);
+  lv1p4 = new Platform("Test22", 1776,  height/2+80,  538, 85);
+  lv1p5 = new Platform("Test22", 2400,  height/2-50,  269, 50);
+  lv1p6 = new Platform("Test22", 2700,  height/2-120, 1076,85);
+  lv1p7 = new Platform("Test22", 800,  height/2-110, 538, 85);
+  platforms = new Platform[]{lv1p1,lv1p2,lv1p3,lv1p4,lv1p5,lv1p6,lv1p7};
+  
+  // — Spikes —
+  lv1d1 = new Spike("Spikes", 250,  height/2+150-21, 65,21);
+  lv1d2 = new Spike("Spikes", 800,  height/2+100-21, 65,21);
+  spikes = new Spike[]{lv1d1, lv1d2};
+  
+  // — coins —
+  coins = new Coin[] {};
+  int coinSize = 32;
+  
+  // — Player —
+  p = new Player(width/2-10, height/2-10, 0, 0, platforms, spikes);
+  gameRunning = true;
+
+  // — Portal —
+  exitPortal = new Portal(3800.0, 70.0, 86, 86);
+  exitPortal.active = false;
+  }
+}
+
+
+
+
 
 // Movement testing
 void keyPressed() {

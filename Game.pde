@@ -3,6 +3,7 @@ Platform lv1p1, lv1p2, lv1p3, lv1p4, lv1p5, lv1p6, lv1p7;
 Spike lv1d1, lv1d2;
 Platform[] platforms;
 Spike[] spikes;
+ArrayList<Coin> coins;
 boolean gameRunning;
 boolean immortal;
 
@@ -12,7 +13,8 @@ boolean isDead    = false;
 
 // new portal stuff
 Portal   exitPortal;
-boolean  levelPassed = false;
+boolean levelPassed = false;
+boolean coinsCollected = false;
 
 void setup() {
   size(800, 500);
@@ -26,20 +28,37 @@ void setup() {
   lv1p6 = new Platform("Test22",2700,  height/2-120, 1076,85);
   lv1p7 = new Platform("Test22", 800,  height/2-110, 538, 85);
   platforms = new Platform[]{lv1p1,lv1p2,lv1p3,lv1p4,lv1p5,lv1p6,lv1p7};
+  
+  
 
   // — Spikes —
   lv1d1 = new Spike("Spikes", 250,  height/2+150-21, 65,21);
-  lv1d2 = new Spike("Spikes", 900,  height/2+100-21, 65,21);
+  lv1d2 = new Spike("Spikes", 800,  height/2+100-21, 65,21);
   spikes = new Spike[]{lv1d1, lv1d2};
-
+  
+  // — coins —
+  coins = new ArrayList<Coin>();
+  int coinsPerPlat = 2;
+  int coinSize     = 32;
+  
+  // Find the rightmost platform edge in world coords
+  float mapEndX = 0;
+  for (Platform plt : platforms) {
+    mapEndX = max(mapEndX, plt.x + plt.xsize);
+    for (int i = 0; i < coinsPerPlat; i++) {
+      float cx = plt.x + (plt.xsize/(coinsPerPlat+1))*(i+1) - coinSize/2;
+      float cy = plt.y - coinSize - 5;
+      coins.add(new Coin("coin", cx, cy, coinSize, coinSize));
+    }
+  }
+  
   // — Player —
   p = new Player(width/2-10, height/2-10, 0, 0, platforms, spikes);
   gameRunning = true;
 
   // — Portal —
-  //exitPortal = new Portal(4400, height/2-150, 86, 86);
   exitPortal = new Portal(3800.0, 70.0, 86, 86);
-  exitPortal.active = true;
+  exitPortal.active = false;
 }
 
 void draw() {
@@ -74,7 +93,7 @@ void draw() {
   }
   else {
     // — NORMAL GAMEPLAY —
-    background(255);
+    background(255); //
 
     // 1) Player
     p.draw();
@@ -105,12 +124,36 @@ void draw() {
     }
 
     // 5) Portal
+    boolean allCollected = true;
+    for (Coin c : coins) {
+      if (!c.collected) {
+        allCollected = false;
+        break;
+      }
+    }
+    exitPortal.active = allCollected;
+    
+    // 5b) Draw & tick portal
     exitPortal.scrollX = p.getScrollX();
     exitPortal.scrollY = p.getScrollY();
     exitPortal.tick(p.hasMovedX, p.hasMovedY);
     if (!levelPassed && exitPortal.reached(p)) {
       levelPassed = true;
     }
+    
+    // 6) Coins
+    int collectedCount = 0;
+    for (Coin c : coins) {
+      c.scrollX = p.getScrollX();
+      c.scrollY = p.getScrollY();
+      c.tick(p.hasMovedX, p.hasMovedY, p);
+      if (c.collected) collectedCount++;
+    }
+    // draw coin counter in the corner
+    fill(0);                   // black text
+    textSize(20);              // adjust legibility
+    textAlign(LEFT, TOP);
+    text("Coins: " + collectedCount + " / " + coins.size(), 10, 10);
 
     // 6) Reset camera scroll
     p.scrollX = 0;
@@ -133,6 +176,12 @@ void resetLevel() {
   for (Spike sp : spikes) {
     sp.center();
     sp.devReset = false;
+  }
+  // reset coins not collected
+  for (Coin c : coins) {
+    if (!c.collected) {
+      c.center();
+    }
   }
   
   // — RESET THE PORTAL TOO! —

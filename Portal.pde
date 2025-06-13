@@ -14,8 +14,21 @@ class Portal extends Platform {
   /** Only draw the portal sprite when its active */
   @Override
   public void draw() {
-    if (active) {
-      super.draw();  // draw the portal.png at currentX,currentY
+    // 1) Draw the portal sprite
+    super.draw();
+
+    // 2) If not active yet, overlay a red X
+    if (!active) {
+      // draw two diagonal lines across the portal image bounds
+      stroke(255, 0, 0);
+      strokeWeight(6);
+      // top-left to bottom-right
+      line(currentX, currentY, currentX + xsize, currentY + ysize);
+      // bottom-left to top-right
+      line(currentX, currentY + ysize, currentX + xsize, currentY);
+      
+      // reset stroke
+      noStroke();
     }
   }
 

@@ -134,7 +134,7 @@ class Player extends Thing {
     this.y = height/2-10;
     this.currentX = this.x;
     this.currentY = this.y;
-    this.sx = 7.0; // init value
+    this.sx = 5; // init value
     this.sy = 0;
     this.inAir = 0;
     this.jumpCounter = 0;

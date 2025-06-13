@@ -37,7 +37,8 @@ void setup() {
   gameRunning = true;
 
   // — Portal —
-  exitPortal = new Portal(4400, height/2-150, 86, 86);
+  //exitPortal = new Portal(4400, height/2-150, 86, 86);
+  exitPortal = new Portal(3800.0, 70.0, 86, 86);
   exitPortal.active = true;
 }
 
@@ -133,6 +134,10 @@ void resetLevel() {
     sp.center();
     sp.devReset = false;
   }
+  
+  // — RESET THE PORTAL TOO! —
+  exitPortal.center();
+  exitPortal.devReset = false;
 
   // clear death & pass flags
   isDead = false;

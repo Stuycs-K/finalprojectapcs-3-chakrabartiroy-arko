@@ -16,6 +16,10 @@ int deathTimer = 0;       // counts frames since death began
 int deathDuration = 60;   // e.g. 60 frames ≈ 1 second at 60 FPS
 boolean isDead = false;
 
+// new stuff
+
+boolean levelPassed = false;
+
 
 void setup() {
   //
@@ -37,6 +41,7 @@ void setup() {
   platforms = new Platform[] {lv1p1, lv1p2, lv1p3, lv1p4, lv1p5, lv1p6, lv1p7};
   spikes = new Spike[] {lv1d1, lv1d2};
   p = new Player(width/2-10, height/2-10, 0, 0, platforms, spikes);
+  
   // x = 390, y = 240
   gameRunning = true;
 }
@@ -45,34 +50,7 @@ void setup() {
 
 void draw() {
   // testing
-  if (!isDead) {
-    background(255); // clear the background
-    p.draw();
-    p.tick();
-    for (int i = 0; i < platforms.length; i++) {
-      // do stuff to each of the platforms
-      platforms[i].scrollX = p.getScrollX();
-      platforms[i].scrollY = p.getScrollY();
-      platforms[i].tick(p.hasMovedX, p.hasMovedY);
-    }
-    // danger/spikes does stuff here:
-    for (int j = 0; j < spikes.length; j++) {
-      // do stuff to each of the spikes/danger
-      spikes[j].scrollX = p.getScrollX();
-      spikes[j].scrollY = p.getScrollY();
-      spikes[j].tick(p.hasMovedX, p.hasMovedY);
-    }
-    // collision → start death sequence
-    if (!isDead && p.touchingSpikes()) {
-      isDead     = true;
-      deathTimer = 0;
-    }
-    
-    // reset player scrollX and scrollY
-    p.scrollX = 0;
-    p.scrollY = 0;
-    //println("Called draw");
-  } else {
+  if (isDead) {
     // death animation: blink player on/off every 10 frames
     background(255);
     // draw static world
@@ -80,6 +58,10 @@ void draw() {
     for (Spike sp : spikes)   sp.draw();
 
     // blink: show player only on even 10-frame intervals
+    // write death text to screen
+    fill(255, 0, 0);
+    textSize(64);
+    text("You Died!", width/2-110, 100);
     if ( (deathTimer / 10) % 2 == 0 ) {
       p.draw();
     }
@@ -91,6 +73,50 @@ void draw() {
     if (deathTimer >= deathDuration) {
       resetLevel();
     }
+  }
+  else if (levelPassed) {
+    // — PASS SCREEN —
+    background(0, 150, 200);
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textSize(48);
+    text("YOU PASSED!", width/2, height/2);
+  }
+  else {
+    // — NORMAL GAMEPLAY —
+    background(255);
+  
+    // 1) Player
+    p.draw();
+    p.tick();
+  
+    // 2) Death by falling
+    if (p.getY() > height) {
+      isDead     = true;
+      deathTimer = 0;
+    }
+  
+    // 3) Platforms
+    for (Platform plt : platforms) {
+      plt.scrollX = p.getScrollX();
+      plt.scrollY = p.getScrollY();
+      plt.tick(p.hasMovedX, p.hasMovedY);
+    }
+  
+    // 4) Spikes and spike‐death
+    for (Spike sp : spikes) {
+      sp.scrollX = p.getScrollX();
+      sp.scrollY = p.getScrollY();
+      sp.tick(p.hasMovedX, p.hasMovedY);
+    }
+    if (!isDead && p.touchingSpikes()) {
+      isDead     = true;
+      deathTimer = 0;
+    }
+  
+    // 7) Reset scroll for next frame
+    p.scrollX = 0;
+    p.scrollY = 0;
   }
 }
 

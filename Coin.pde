@@ -15,11 +15,11 @@ class Coin extends Thing {
   public boolean devReset  = false;
 
   /** Load the coin image and remember its starting world x,y. */
-  Coin(String imgName, float xpos, float ypos, int w, int h) {
+  Coin(float xpos, float ypos, int w, int h) {
     super(w, h, xpos, ypos, 0, 0);
     originX = xpos;
     originY = ypos;
-    sprite  = loadImage(imgName + ".png");
+    sprite  = loadImage("coin.png");
     sprite.resize(w, h);
   }
 

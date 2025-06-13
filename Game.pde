@@ -1,6 +1,7 @@
 Player p;
-Platform lv1p1, lv1p2, lv1p3, lv1p4, lv1p5, lv1p6, lv1p7;
-Spike lv1d1, lv1d2;
+Platform lv1p1, lv1p2, lv1p3, lv1p4, lv1p5, lv1p6;
+Spike lv1d1, lv1d2, lv1d3, lv1d4, lv1d5, lv1d6, lv1d7;
+Coin lv1c1, lv1c2, lv1c3, lv1c4, lv1c5, lv1c6, lv1c7, lv1c8, lv1c9, lv1c10;
 Platform[] platforms;
 Spike[] spikes;
 Coin[] coins;
@@ -28,26 +29,42 @@ void setup() {
   lv1p2 = new Platform("Test22", 700,  height/2+100, 538, 85);
   lv1p3 = new Platform("Test22", 1238,  height/2+15,  538, 85);
   lv1p4 = new Platform("Test22", 1776,  height/2+80,  538, 85);
-  lv1p5 = new Platform("Test22", 2400,  height/2-50,  269, 50);
-  lv1p6 = new Platform("Test22", 2700,  height/2-120, 1076,85);
-  lv1p7 = new Platform("Test22", 800,  height/2-110, 538, 85);
-  platforms = new Platform[]{lv1p1,lv1p2,lv1p3,lv1p4,lv1p5,lv1p6,lv1p7};
+  //lv1p5 = new Platform("Test22", 1776+538, height/2+80, 538, 85);
+  platforms = new Platform[]{lv1p1,lv1p2,lv1p3,lv1p4};
   
   // — Spikes —
   lv1d1 = new Spike("Spikes", 250,  height/2+150-21, 65,21);
   lv1d2 = new Spike("Spikes", 800,  height/2+100-21, 65,21);
-  spikes = new Spike[]{lv1d1, lv1d2};
+  lv1d3 = new Spike("Spike", 1050, height/2+100-21, 21, 21); // spike: 21*21
+  lv1d4 = new Spike("Spike", 1300, height/2+15-21, 21, 21);
+  lv1d5 = new Spike("Spears", 1800, height/2+15-60-122, 83, 122); // spears: 122*83, vertical
+  lv1d6 = new Spike("Spears", 2000, height/2+15-60-122, 83, 122);
+  lv1d7 = new Spike("Spears", 2200, height/2+15-60-122, 83, 122);
+  spikes = new Spike[]{lv1d1, lv1d2, lv1d3, lv1d4, lv1d5, lv1d6, lv1d7};
   
   // — coins —
-  coins = new Coin[] {};
-  int coinSize = 32;
+  //coins = new Coin[] {};
+  //int coinSize = 32;
+  // adjustment for coins: when positioned on top of set of three spikes, adjustment = +1 * (65-32) / 2 = 16.5
+  // adjustment for coins: when positioned on top of one spike, adjustment = +1 * (21-32) / 2 = -5.5
+  lv1c1 = new Coin(250+16.5, height/2+150-21-90, 32, 32); // coin: 32*32
+  lv1c2 = new Coin(800+16.5, height/2+100-21-90, 32, 32); // the height/ypos equation looks weird, but it's just because the (first two, at least) coins are positioned on top of the spikes
+  lv1c3 = new Coin(1050-5.5, height/2+100-21-90, 32, 32);
+  lv1c4 = new Coin(1300-5.5, height/2+15-21-90, 32, 32);
+  lv1c5 = new Coin(1500, height/2+15-21-30, 32, 32); // coins just on the platforms
+  lv1c6 = new Coin(1570, height/2+15-21-30, 32, 32);
+  lv1c7 = new Coin(1640, height/2+15-21-30, 32, 32);
+  lv1c8 = new Coin(1720, height/2+15-21-30, 32, 32);
+  lv1c9 = new Coin(1883+117/2-16, height/2+15-60-32, 32, 32);
+  lv1c10 = new Coin(2083+117/2-16, height/2+15-60-32, 32, 32);
+  coins = new Coin[] {lv1c1, lv1c2, lv1c3, lv1c4, lv1c5, lv1c6, lv1c7, lv1c8, lv1c9, lv1c10};
   
   // — Player —
   p = new Player(width/2-10, height/2-10, 0, 0, platforms, spikes);
   gameRunning = true;
 
   // — Portal —
-  exitPortal = new Portal(3800.0, 70.0, 86, 86);
+  exitPortal = new Portal(2350.0, height/2+15-60, 86, 86);
   exitPortal.active = false;
 }
 
@@ -207,31 +224,31 @@ void generateLevel(int l) {
   if (l == 2) {
     //
     // — Platforms —
-  lv1p1 = new Platform("Test22",  -100,  height/2+150, 538, 85);
-  lv1p2 = new Platform("Test22", 700,  height/2+100, 538, 85);
-  lv1p3 = new Platform("Test22", 1238,  height/2+15,  538, 85);
-  lv1p4 = new Platform("Test22", 1776,  height/2+80,  538, 85);
-  lv1p5 = new Platform("Test22", 2400,  height/2-50,  269, 50);
-  lv1p6 = new Platform("Test22", 2700,  height/2-120, 1076,85);
-  lv1p7 = new Platform("Test22", 800,  height/2-110, 538, 85);
-  platforms = new Platform[]{lv1p1,lv1p2,lv1p3,lv1p4,lv1p5,lv1p6,lv1p7};
+    lv1p1 = new Platform("Test22",  -100,  height/2+150, 538, 85);
+    lv1p2 = new Platform("Test22", 700,  height/2+100, 538, 85);
+    lv1p3 = new Platform("Test22", 1238,  height/2+15,  538, 85);
+    lv1p4 = new Platform("Test22", 1776,  height/2+80,  538, 85);
+    lv1p5 = new Platform("Test22", 2400,  height/2-50,  269, 50);
+    lv1p6 = new Platform("Test22", 2700,  height/2-120, 1076,85);
+    //lv1p7 = new Platform("Test22", 800,  height/2-110, 538, 85);
+    platforms = new Platform[]{lv1p1,lv1p2,lv1p3,lv1p4,lv1p5,lv1p6};
+    
+    // — Spikes —
+    lv1d1 = new Spike("Spikes", 250,  height/2+150-21, 65,21);
+    lv1d2 = new Spike("Spikes", 800,  height/2+100-21, 65,21);
+    spikes = new Spike[]{lv1d1, lv1d2};
+    
+    // — coins —
+    coins = new Coin[] {};
+    int coinSize = 32;
+    
+    // — Player —
+    p = new Player(width/2-10, height/2-10, 0, 0, platforms, spikes);
+    gameRunning = true;
   
-  // — Spikes —
-  lv1d1 = new Spike("Spikes", 250,  height/2+150-21, 65,21);
-  lv1d2 = new Spike("Spikes", 800,  height/2+100-21, 65,21);
-  spikes = new Spike[]{lv1d1, lv1d2};
-  
-  // — coins —
-  coins = new Coin[] {};
-  int coinSize = 32;
-  
-  // — Player —
-  p = new Player(width/2-10, height/2-10, 0, 0, platforms, spikes);
-  gameRunning = true;
-
-  // — Portal —
-  exitPortal = new Portal(3800.0, 70.0, 86, 86);
-  exitPortal.active = false;
+    // — Portal —
+    exitPortal = new Portal(3800.0, 70.0, 86, 86);
+    exitPortal.active = false;
   }
 }
 

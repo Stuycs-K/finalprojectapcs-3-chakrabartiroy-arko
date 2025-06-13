@@ -175,6 +175,20 @@ class Player extends Thing {
     }
     return false;
   }
+  public boolean touchingEnemies() {
+    for (int i = 0; i < enemies.length; i++) {
+      // ← use spikes[i].x and spikes[i].y instead of getX()/getY()
+      if (super.touching2(
+            enemies[i],
+            this.x, this.y,
+            enemies[i].x, enemies[i].y
+          )) {
+        println("Spike hit at player("+ x +","+ y +") vs spike("+ spikes[i].x +","+ spikes[i].y +")");
+        return true;
+      }
+    }
+    return false;
+  }
 
   // position function:
   public void position() {

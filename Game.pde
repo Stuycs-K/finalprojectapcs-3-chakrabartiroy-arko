@@ -1,10 +1,14 @@
 Player p;
 Platform lv1p1, lv1p2, lv1p3, lv1p4, lv1p5, lv1p6;
 Spike lv1d1, lv1d2, lv1d3, lv1d4, lv1d5, lv1d6, lv1d7;
+Spike lv2d1, lv2d2, lv2d3, lv2d4, lv2d5, lv2d6, lv2d7, lv2d8, lv2d9, lv2d10;
 Coin lv1c1, lv1c2, lv1c3, lv1c4, lv1c5, lv1c6, lv1c7, lv1c8, lv1c9, lv1c10;
+Coin lv2c1, lv2c2, lv2c3, lv2c4, lv2c5, lv2c6, lv2c7, lv2c8, lv2c9, lv2c10, lv2c11;
+Enemy lv2e1;
 Platform[] platforms;
 Spike[] spikes;
 Coin[] coins;
+Enemy[] enemies;
 int level = 1;
 
 boolean gameRunning;
@@ -62,6 +66,9 @@ void setup() {
   // — Player —
   p = new Player(width/2-10, height/2-10, 0, 0, platforms, spikes);
   gameRunning = true;
+  
+  // no enemy here
+  enemies = new Enemy[] {};
 
   // — Portal —
   exitPortal = new Portal(2350.0, height/2+15-60, 86, 86);
@@ -77,6 +84,7 @@ void draw() {
     background(0);
     for (Platform plt : platforms) plt.draw();
     for (Spike sp : spikes)    sp.draw();
+    for (Enemy en : enemies)   en.draw();
 
     fill(255, 255, 0); // bright yellow
     textSize(64);
@@ -142,7 +150,14 @@ void draw() {
       sp.scrollY = p.getScrollY();
       sp.tick(p.hasMovedX, p.hasMovedY);
     }
-    if (!isDead && p.touchingSpikes()) {
+    // 4.5) Enemies & death
+    for (Enemy en : enemies) {
+      en.scrollX = p.getScrollX();
+      en.scrollY = p.getScrollY();
+      //println("enemy");
+      en.tick(p.hasMovedX, p.hasMovedY);
+    }
+    if ((!isDead && p.touchingSpikes()) || (!isDead && p.touchingEnemies())) {
       isDead = true;
       deathTimer = 0;
     }
@@ -201,6 +216,10 @@ void resetLevel() {
     sp.center();
     sp.devReset = false;
   }
+  for (Enemy en : enemies) {
+    en.center();
+    en.devReset = false;
+  }
   // reset coins not collected
   for (Coin c : coins) {
     if (!c.collected) {
@@ -224,19 +243,16 @@ void generateLevel(int l) {
   if (l == 2) {
     //
     // — Platforms —
-    lv1p1 = new Platform("Test22",  -100,  height/2+150, 538, 85);
+    lv1p1 = new Platform("Test22",  40,  height/2+150, 538, 85);
     lv1p2 = new Platform("Test22", 700,  height/2+100, 538, 85);
     lv1p3 = new Platform("Test22", 1238,  height/2+15,  538, 85);
     lv1p4 = new Platform("Test22", 1776,  height/2+80,  538, 85);
-    lv1p5 = new Platform("Test22", 2400,  height/2-50,  269, 50);
-    lv1p6 = new Platform("Test22", 2700,  height/2-120, 1076,85);
-    //lv1p7 = new Platform("Test22", 800,  height/2-110, 538, 85);
-    platforms = new Platform[]{lv1p1,lv1p2,lv1p3,lv1p4,lv1p5,lv1p6};
+    //lv1p5 = new Platform("Test22", 1776+538, height/2+80, 538, 85);
+    platforms = new Platform[]{lv1p1,lv1p2,lv1p3,lv1p4}; // reused the same platforms from level 1 because I don't really need a different setup for lvl2
     
     // — Spikes —
     lv1d1 = new Spike("Spikes", 250,  height/2+150-21, 65,21);
-    lv1d2 = new Spike("Spikes", 800,  height/2+100-21, 65,21);
-    spikes = new Spike[]{lv1d1, lv1d2};
+    spikes = new Spike[]{lv1d1};
     
     // — coins —
     coins = new Coin[] {};
@@ -245,9 +261,16 @@ void generateLevel(int l) {
     // — Player —
     p = new Player(width/2-10, height/2-10, 0, 0, platforms, spikes);
     gameRunning = true;
+    
+    // ~ Enemies ~
+    //lv2e1 = new Enemy("Big Green", 750, height/2+100-26*3, 1238-50-23*3, height/2+100-26*3, 26*3, 23*3, 5); // he can move across the second platform from about start to about end 
+    // constructor:
+    // public Enemy(String costume, float ox, float oy, float fx, float fy, int w, int h, float glideTime)
+    // big green dimensions: 104 * 92 -> 92*104 I think??? processing is so weird
+    //enemies = new Enemy[] {lv2e1};
   
     // — Portal —
-    exitPortal = new Portal(3800.0, 70.0, 86, 86);
+    exitPortal = new Portal(2350.0, height/2+15-60, 86, 86);
     exitPortal.active = false;
   }
 }
@@ -262,6 +285,7 @@ void keyPressed() {
     p.center();
     for (Platform plt : platforms) plt.devReset = true;
     for (Spike sp : spikes)    sp.devReset = true;
+    for (Enemy en : enemies)   en.devReset = true;
   }
   if (keyCode==RIGHT) p.keys[0]=true;
   if (keyCode==LEFT)  p.keys[1]=true;
@@ -274,6 +298,7 @@ void keyReleased() {
   if (key==' ') {
     for (Platform plt : platforms) plt.devReset = false;
     for (Spike sp : spikes)    sp.devReset = false;
+    for (Enemy en : enemies)   en.devReset = false;
   }
   if (keyCode==RIGHT) p.keys[0]=false;
   if (keyCode==LEFT)  p.keys[1]=false;

@@ -1,0 +1,33 @@
+// Portal.pde
+
+class Portal extends Platform {
+  public boolean active = false;
+
+  /** 
+   * x,y,w,h are world coords & size; 
+   * "portal" tells the super‐constructor to load portal.png 
+   */
+  Portal(float xpos, float ypos, int w, int h) {
+    super("portal_open", xpos, ypos, w, h);
+  }
+
+  /** Only draw the portal sprite when its active */
+  @Override
+  public void draw() {
+    if (active) {
+      super.draw();  // draw the portal.png at currentX,currentY
+    }
+  }
+
+  /** The Platform.tick() already handles position() & draw(), so we can reuse it */
+  @Override
+  public void tick(boolean moveX, boolean moveY) {
+    position(moveX, moveY);
+    draw();
+  }
+
+  /** Win when player overlaps this portal world box */
+  public boolean reached(Player p) {
+    return active && p.touching2(this, p.x, p.y, this.x, this.y);
+  }
+}
